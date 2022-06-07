@@ -9,7 +9,7 @@ export interface SignedMakerOrder extends MakerOrder {
 
 export async function createMakerOrder({
   isOrderAsk,
-  signer,
+  maker,
   collection,
   price,
   tokenId,
@@ -21,12 +21,14 @@ export async function createMakerOrder({
   endTime,
   minPercentageToAsk,
   params,
+  interceptor,
+  interceptorExtra,
   signerUser,
   verifyingContract,
 }: SignedMakerOrder): Promise<MakerOrderWithSignature> {
   const makerOrder: MakerOrder = {
     isOrderAsk: isOrderAsk,
-    signer: signer,
+    maker: maker,
     collection: collection,
     price: price,
     tokenId: tokenId,
@@ -38,6 +40,8 @@ export async function createMakerOrder({
     endTime: endTime,
     minPercentageToAsk: minPercentageToAsk,
     params: params,
+    interceptor,
+    interceptorExtra,
   };
 
   const signedOrder = await signMakerOrder(signerUser, verifyingContract, makerOrder);
@@ -60,6 +64,8 @@ export function createTakerOrder({
   tokenId,
   minPercentageToAsk,
   params,
+  interceptor,
+  interceptorExtra,
 }: TakerOrder): TakerOrder {
   const takerOrder: TakerOrder = {
     isOrderAsk: isOrderAsk,
@@ -68,6 +74,8 @@ export function createTakerOrder({
     tokenId: tokenId,
     minPercentageToAsk: minPercentageToAsk,
     params: params,
+    interceptor,
+    interceptorExtra,
   };
 
   return takerOrder;

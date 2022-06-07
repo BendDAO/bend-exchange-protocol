@@ -2,7 +2,7 @@
 
 ## Description
 
-This project contains all smart contracts used for the current LooksRare exchange ("v1"). This includes:
+This project contains all smart contracts used for the current BendDAO exchange ("v1"). This includes:
 
 - core exchange contract
 - libraries

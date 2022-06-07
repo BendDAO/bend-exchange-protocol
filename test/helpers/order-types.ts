@@ -2,7 +2,7 @@ import { BigNumber, BigNumberish, BytesLike } from "ethers";
 
 export interface MakerOrder {
   isOrderAsk: boolean; // true if ask, false if bid
-  signer: string; // signer address of the maker order
+  maker: string; //  address of the maker order
   collection: string; // collection address
   price: BigNumber; // price
   tokenId: BigNumber; // id of the token
@@ -14,6 +14,8 @@ export interface MakerOrder {
   startTime: BigNumber; // startTime in epoch
   endTime: BigNumber; // endTime in epoch
   params: BytesLike; // additional parameters
+  interceptor: string;
+  interceptorExtra: BytesLike;
 }
 
 export interface MakerOrderWithSignature extends MakerOrder {
@@ -29,4 +31,6 @@ export interface TakerOrder {
   tokenId: BigNumber;
   minPercentageToAsk: BigNumber;
   params: BytesLike; // params (e.g., tokenId)
+  interceptor: string;
+  interceptorExtra: BytesLike;
 }

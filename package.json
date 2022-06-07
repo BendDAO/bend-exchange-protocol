@@ -1,8 +1,8 @@
 {
-  "name": "@looksrare/contracts-exchange-v1",
-  "version": "1.1.0",
-  "description": "LooksRare exchange smart contracts (v1)",
-  "author": "LooksRare",
+  "name": "@benddao/exchange",
+  "version": "1.0.0",
+  "description": "Bend exchange smart",
+  "author": "BendDAO",
   "license": "MIT",
   "private": false,
   "files": [
@@ -15,16 +15,16 @@
     "/contracts/transferManagers/*.sol"
   ],
   "keywords": [
-    "looksrare"
+    "benddao"
   ],
   "engines": {
     "node": ">=8.3.0"
   },
-  "homepage": "https://looksrare.org/",
-  "bugs": "https://github.com/LooksRare/contracts-exchange-v1/issues",
+  "homepage": "https://benddao.xyz/",
+  "bugs": "https://github.com/BendDAO/bend-exchange-protocol/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/LooksRare/contracts-exchange-v1.git"
+    "url": "https://github.com/BendDAO/bend-exchange-protocol.git"
   },
   "publishConfig": {
     "access": "public",
@@ -39,7 +39,6 @@
     "prepare": "husky install",
     "test": "hardhat test",
     "test:gas": "REPORT_GAS=true hardhat test",
-    "test:forge": "forge test",
     "test:coverage": "hardhat coverage && hardhat compile --force",
     "release": "release-it"
   },

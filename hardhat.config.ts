@@ -18,13 +18,7 @@ const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   networks: {
     hardhat: {
-      allowUnlimitedContractSize: false,
-      hardfork: "berlin", // Berlin is used (temporarily) to avoid issues with coverage
-      mining: {
-        auto: true,
-        interval: 50000,
-      },
-      gasPrice: "auto",
+      initialBaseFeePerGas: 0,
     },
   },
   etherscan: {
@@ -33,7 +27,7 @@ const config: HardhatUserConfig = {
   solidity: {
     compilers: [
       {
-        version: "0.8.7",
+        version: "0.8.9",
         settings: { optimizer: { enabled: true, runs: 888888 } },
       },
       {

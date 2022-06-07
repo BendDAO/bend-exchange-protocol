@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity 0.8.9;
 
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
@@ -45,8 +45,8 @@ contract RoyaltyFeeSetter is Ownable {
         address receiver,
         uint256 fee
     ) external {
-        require(!IERC165(collection).supportsInterface(INTERFACE_ID_ERC2981), "Admin: Must not be ERC2981");
-        require(msg.sender == IOwnable(collection).admin(), "Admin: Not the admin");
+        require(!IERC165(collection).supportsInterface(INTERFACE_ID_ERC2981), "Admin: must not be ERC2981");
+        require(msg.sender == IOwnable(collection).admin(), "Admin: not the admin");
 
         _updateRoyaltyInfoForCollectionIfOwnerOrAdmin(collection, setter, receiver, fee);
     }
@@ -65,8 +65,8 @@ contract RoyaltyFeeSetter is Ownable {
         address receiver,
         uint256 fee
     ) external {
-        require(!IERC165(collection).supportsInterface(INTERFACE_ID_ERC2981), "Owner: Must not be ERC2981");
-        require(msg.sender == IOwnable(collection).owner(), "Owner: Not the owner");
+        require(!IERC165(collection).supportsInterface(INTERFACE_ID_ERC2981), "Owner: must not be ERC2981");
+        require(msg.sender == IOwnable(collection).owner(), "Owner: not the owner");
 
         _updateRoyaltyInfoForCollectionIfOwnerOrAdmin(collection, setter, receiver, fee);
     }
@@ -86,7 +86,7 @@ contract RoyaltyFeeSetter is Ownable {
         uint256 fee
     ) external {
         (address currentSetter, , ) = IRoyaltyFeeRegistry(royaltyFeeRegistry).royaltyFeeInfoCollection(collection);
-        require(msg.sender == currentSetter, "Setter: Not the setter");
+        require(msg.sender == currentSetter, "Setter: not the setter");
 
         IRoyaltyFeeRegistry(royaltyFeeRegistry).updateRoyaltyInfoForCollection(collection, setter, receiver, fee);
     }
@@ -174,12 +174,12 @@ contract RoyaltyFeeSetter is Ownable {
         uint256 fee
     ) internal {
         (address currentSetter, , ) = IRoyaltyFeeRegistry(royaltyFeeRegistry).royaltyFeeInfoCollection(collection);
-        require(currentSetter == address(0), "Setter: Already set");
+        require(currentSetter == address(0), "Setter: already set");
 
         require(
             (IERC165(collection).supportsInterface(INTERFACE_ID_ERC721) ||
                 IERC165(collection).supportsInterface(INTERFACE_ID_ERC1155)),
-            "Setter: Not ERC721/ERC1155"
+            "Setter: not ERC721/ERC1155"
         );
 
         IRoyaltyFeeRegistry(royaltyFeeRegistry).updateRoyaltyInfoForCollection(collection, setter, receiver, fee);

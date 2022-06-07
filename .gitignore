@@ -14,3 +14,7 @@ abis/
 
 # Others 
 lib
+
+storage_layout
+out.html
+.history/*

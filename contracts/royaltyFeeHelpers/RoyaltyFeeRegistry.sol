@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity 0.8.9;
 
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
@@ -7,7 +7,7 @@ import {IRoyaltyFeeRegistry} from "../interfaces/IRoyaltyFeeRegistry.sol";
 
 /**
  * @title RoyaltyFeeRegistry
- * @notice It is a royalty fee registry for the LooksRare exchange.
+ * @notice It is a royalty fee registry for the Bend exchange.
  */
 contract RoyaltyFeeRegistry is IRoyaltyFeeRegistry, Ownable {
     struct FeeInfo {
@@ -29,7 +29,7 @@ contract RoyaltyFeeRegistry is IRoyaltyFeeRegistry, Ownable {
      * @param _royaltyFeeLimit new royalty fee limit (500 = 5%, 1,000 = 10%)
      */
     constructor(uint256 _royaltyFeeLimit) {
-        require(_royaltyFeeLimit <= 9500, "Owner: Royalty fee limit too high");
+        require(_royaltyFeeLimit <= 9500, "Owner: royalty fee limit too high");
         royaltyFeeLimit = _royaltyFeeLimit;
     }
 
@@ -38,7 +38,7 @@ contract RoyaltyFeeRegistry is IRoyaltyFeeRegistry, Ownable {
      * @param _royaltyFeeLimit new royalty fee limit (500 = 5%, 1,000 = 10%)
      */
     function updateRoyaltyFeeLimit(uint256 _royaltyFeeLimit) external override onlyOwner {
-        require(_royaltyFeeLimit <= 9500, "Owner: Royalty fee limit too high");
+        require(_royaltyFeeLimit <= 9500, "Owner: royalty fee limit too high");
         royaltyFeeLimit = _royaltyFeeLimit;
 
         emit NewRoyaltyFeeLimit(_royaltyFeeLimit);
@@ -57,7 +57,7 @@ contract RoyaltyFeeRegistry is IRoyaltyFeeRegistry, Ownable {
         address receiver,
         uint256 fee
     ) external override onlyOwner {
-        require(fee <= royaltyFeeLimit, "Registry: Royalty fee too high");
+        require(fee <= royaltyFeeLimit, "Registry: royalty fee too high");
         _royaltyFeeInfoCollection[collection] = FeeInfo({setter: setter, receiver: receiver, fee: fee});
 
         emit RoyaltyFeeUpdate(collection, setter, receiver, fee);

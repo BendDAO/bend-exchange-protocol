@@ -1,11 +1,12 @@
 {
   "extends": "solhint:recommended",
   "rules": {
-    "compiler-version": ["error", "^0.8.0"],
+    "compiler-version": ["error", "0.8.9"],
     "func-visibility": [{ "ignoreConstructors": true }],
     "func-name-mixedcase": "off",
     "not-rely-on-time": "off",
     "reason-string": "off",
-    "var-name-mixedcase": "off"
+    "var-name-mixedcase": "off",
+    "avoid-low-level-calls": "off"
   }
 }

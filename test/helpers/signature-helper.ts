@@ -16,7 +16,7 @@ const { defaultAbiCoder, keccak256, solidityPack } = utils;
  * @param signer signer
  * @param types solidity types of the value param
  * @param values params to be sent to the Solidity function
- * @param verifyingContract verifying contract address ("LooksRareExchange")
+ * @param verifyingContract verifying contract address ("BendExchange")
  * @returns splitted signature
  * @see https://docs.ethers.io/v5/api/signer/#Signer-signTypedData
  */
@@ -27,7 +27,7 @@ const signTypedData = async (
   verifyingContract: string
 ): Promise<Signature> => {
   const domain: TypedDataDomain = {
-    name: "LooksRareExchange",
+    name: "BendExchange",
     version: "1",
     chainId: "31337", // HRE
     verifyingContract: verifyingContract,
@@ -49,7 +49,7 @@ const signTypedData = async (
 
 export const computeDomainSeparator = (verifyingContract: string): string => {
   const domain: TypedDataDomain = {
-    name: "LooksRareExchange",
+    name: "BendExchange",
     version: "1",
     chainId: "31337", // HRE
     verifyingContract: verifyingContract,
@@ -78,12 +78,14 @@ export const computeOrderHash = (order: MakerOrder): string => {
     "uint256",
     "uint256",
     "bytes32",
+    "address",
+    "bytes32",
   ];
 
   const values = [
-    "0x40261ade532fa1d2c7293df30aaadb9b3c616fae525a0b56d3d411c841a85028", // maker order hash (from Solidity)
+    "0xfd561ac528d7d2fc669c32105ec4867617451ed5ca6ccde2e4ed234a0a41010a", // maker order hash (from Solidity)
     order.isOrderAsk,
-    order.signer,
+    order.maker,
     order.collection,
     order.price,
     order.tokenId,
@@ -95,6 +97,8 @@ export const computeOrderHash = (order: MakerOrder): string => {
     order.endTime,
     order.minPercentageToAsk,
     keccak256(order.params),
+    order.interceptor,
+    keccak256(order.interceptorExtra),
   ];
 
   return keccak256(defaultAbiCoder.encode(types, values));
@@ -127,12 +131,14 @@ export const signMakerOrder = (
     "uint256",
     "uint256",
     "bytes32",
+    "address",
+    "bytes32",
   ];
 
   const values = [
-    "0x40261ade532fa1d2c7293df30aaadb9b3c616fae525a0b56d3d411c841a85028",
+    "0xfd561ac528d7d2fc669c32105ec4867617451ed5ca6ccde2e4ed234a0a41010a",
     order.isOrderAsk,
-    order.signer,
+    order.maker,
     order.collection,
     order.price,
     order.tokenId,
@@ -144,6 +150,8 @@ export const signMakerOrder = (
     order.endTime,
     order.minPercentageToAsk,
     keccak256(order.params),
+    order.interceptor,
+    keccak256(order.interceptorExtra),
   ];
 
   return signTypedData(signer, types, values, verifyingContract);

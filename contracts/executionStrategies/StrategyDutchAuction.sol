@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity 0.8.9;
 
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {OrderTypes} from "../libraries/OrderTypes.sol";
@@ -24,7 +24,7 @@ contract StrategyDutchAuction is IExecutionStrategy, Ownable {
      * @param _minimumAuctionLengthInSeconds minimum auction length in seconds
      */
     constructor(uint256 _protocolFee, uint256 _minimumAuctionLengthInSeconds) {
-        require(_minimumAuctionLengthInSeconds >= 15 minutes, "Owner: Auction length must be > 15 min");
+        require(_minimumAuctionLengthInSeconds >= 15 minutes, "Owner: auction length must be > 15 min");
 
         PROTOCOL_FEE = _protocolFee;
         minimumAuctionLengthInSeconds = _minimumAuctionLengthInSeconds;
@@ -53,8 +53,8 @@ contract StrategyDutchAuction is IExecutionStrategy, Ownable {
         uint256 endTime = makerAsk.endTime;
 
         // Underflow checks and auction length check
-        require(endTime >= (startTime + minimumAuctionLengthInSeconds), "Dutch Auction: Length must be longer");
-        require(startPrice > endPrice, "Dutch Auction: Start price must be greater than end price");
+        require(endTime >= (startTime + minimumAuctionLengthInSeconds), "Dutch Auction: length must be longer");
+        require(startPrice > endPrice, "Dutch Auction: start price must be greater than end price");
 
         uint256 currentAuctionPrice = startPrice -
             (((startPrice - endPrice) * (block.timestamp - startTime)) / (endTime - startTime));
@@ -101,7 +101,7 @@ contract StrategyDutchAuction is IExecutionStrategy, Ownable {
      * @dev It protects against auctions that would be too short to be executed (e.g., 15 seconds)
      */
     function updateMinimumAuctionLength(uint256 _minimumAuctionLengthInSeconds) external onlyOwner {
-        require(_minimumAuctionLengthInSeconds >= 15 minutes, "Owner: Auction length must be > 15 min");
+        require(_minimumAuctionLengthInSeconds >= 15 minutes, "Owner: auction length must be > 15 min");
         minimumAuctionLengthInSeconds = _minimumAuctionLengthInSeconds;
 
         emit NewMinimumAuctionLengthInSeconds(_minimumAuctionLengthInSeconds);

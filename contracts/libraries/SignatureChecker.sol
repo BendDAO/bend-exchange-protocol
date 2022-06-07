@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity 0.8.9;
 
 import {Address} from "@openzeppelin/contracts/utils/Address.sol";
 import {IERC1271} from "@openzeppelin/contracts/interfaces/IERC1271.sol";
@@ -26,14 +26,14 @@ library SignatureChecker {
         // https://crypto.iacr.org/2019/affevents/wac/medias/Heninger-BiasedNonceSense.pdf
         require(
             uint256(s) <= 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0,
-            "Signature: Invalid s parameter"
+            "Signature: invalid s parameter"
         );
 
-        require(v == 27 || v == 28, "Signature: Invalid v parameter");
+        require(v == 27 || v == 28, "Signature: invalid v parameter");
 
         // If the signature is valid (and not malleable), return the signer address
         address signer = ecrecover(hash, v, r, s);
-        require(signer != address(0), "Signature: Invalid signer");
+        require(signer != address(0), "Signature: invalid signer");
 
         return signer;
     }

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity 0.8.9;
 
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {EnumerableSet} from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
@@ -8,7 +8,7 @@ import {IExecutionManager} from "./interfaces/IExecutionManager.sol";
 
 /**
  * @title ExecutionManager
- * @notice It allows adding/removing execution strategies for trading on the LooksRare exchange.
+ * @notice It allows adding/removing execution strategies for trading on the Bend exchange.
  */
 contract ExecutionManager is IExecutionManager, Ownable {
     using EnumerableSet for EnumerableSet.AddressSet;
@@ -23,7 +23,7 @@ contract ExecutionManager is IExecutionManager, Ownable {
      * @param strategy address of the strategy to add
      */
     function addStrategy(address strategy) external override onlyOwner {
-        require(!_whitelistedStrategies.contains(strategy), "Strategy: Already whitelisted");
+        require(!_whitelistedStrategies.contains(strategy), "Strategy: already whitelisted");
         _whitelistedStrategies.add(strategy);
 
         emit StrategyWhitelisted(strategy);
@@ -34,7 +34,7 @@ contract ExecutionManager is IExecutionManager, Ownable {
      * @param strategy address of the strategy to remove
      */
     function removeStrategy(address strategy) external override onlyOwner {
-        require(_whitelistedStrategies.contains(strategy), "Strategy: Not whitelisted");
+        require(_whitelistedStrategies.contains(strategy), "Strategy: not whitelisted");
         _whitelistedStrategies.remove(strategy);
 
         emit StrategyRemoved(strategy);

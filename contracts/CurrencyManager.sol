@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity 0.8.9;
 
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {EnumerableSet} from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
@@ -8,7 +8,7 @@ import {ICurrencyManager} from "./interfaces/ICurrencyManager.sol";
 
 /**
  * @title CurrencyManager
- * @notice It allows adding/removing currencies for trading on the LooksRare exchange.
+ * @notice It allows adding/removing currencies for trading on the Bend exchange.
  */
 contract CurrencyManager is ICurrencyManager, Ownable {
     using EnumerableSet for EnumerableSet.AddressSet;
@@ -23,9 +23,9 @@ contract CurrencyManager is ICurrencyManager, Ownable {
      * @param currency address of the currency to add
      */
     function addCurrency(address currency) external override onlyOwner {
-        require(!_whitelistedCurrencies.contains(currency), "Currency: Already whitelisted");
+        require(currency != address(0), "Currency: can not be null address");
+        require(!_whitelistedCurrencies.contains(currency), "Currency: already whitelisted");
         _whitelistedCurrencies.add(currency);
-
         emit CurrencyWhitelisted(currency);
     }
 
@@ -34,7 +34,7 @@ contract CurrencyManager is ICurrencyManager, Ownable {
      * @param currency address of the currency to remove
      */
     function removeCurrency(address currency) external override onlyOwner {
-        require(_whitelistedCurrencies.contains(currency), "Currency: Not whitelisted");
+        require(_whitelistedCurrencies.contains(currency), "Currency: not whitelisted");
         _whitelistedCurrencies.remove(currency);
 
         emit CurrencyRemoved(currency);

@@ -38,5 +38,3 @@ jobs:
         run: yarn compile:force
       - name: Run TypeScript/Waffle tests
         run: yarn test
-      - name: Run Solidity/Forge tests
-        run: forge test
