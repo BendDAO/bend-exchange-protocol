@@ -1,4 +1,18 @@
-# @looksrare/contracts-exchange-v1
+[![Build pass](https://github.com/BendDAO/bend-exchange-protocol/actions/workflows/tests.yaml/badge.svg)](https://github.com/BendDAO/bend-exchange-protocol/actions/workflows/node.js.yml)
+[![codecov](https://codecov.io/gh/BendDAO/bend-exchange-protocol/branch/main/graph/badge.svg?token=eOFNz0Tqkn)](https://codecov.io/gh/BendDAO/bend-exchange-protocol)
+
+```
+'########::'########:'##::: ##:'########::
+ ##.... ##: ##.....:: ###:: ##: ##.... ##:
+ ##:::: ##: ##::::::: ####: ##: ##:::: ##:
+ ########:: ######::: ## ## ##: ##:::: ##:
+ ##.... ##: ##...:::: ##. ####: ##:::: ##:
+ ##:::: ##: ##::::::: ##:. ###: ##:::: ##:
+ ########:: ########: ##::. ##: ########::
+........:::........::..::::..::........:::
+```
+
+# Bend Exchange Protocol
 
 ## Description
 
@@ -11,14 +25,27 @@ This project contains all smart contracts used for the current BendDAO exchange 
 - royalty-related contracts
 - transfer managers and selector contracts
 
+## Documentation
+
+The documentation for the exchange smart contracts is available [here](https://docs.benddao.xyz/developers/deployed-contracts/exchange-protocol).
+
+## Audits
+
+TBD
+
+## Thanks
+
+BendDAO Exchange protocol refers to the architecture design and adopts some of the code of [LooksRare](https://github.com/LooksRare/contracts-exchange-v1).
+We are very grateful to LooksRare for providing us with an excellent exchange platform.
+
 ## Installation
 
 ```shell
 # Yarn
-yarn add @looksrare/contracts-exchange-v1
+yarn add @benddao/bend-exchange-protocol
 
 # NPM
-npm install @looksrare/contracts-exchange-v1
+npm install @benddao/bend-exchange-protocol
 ```
 
 ## NPM package
@@ -27,10 +54,6 @@ The NPM package contains the following:
 
 - Solidity smart contracts (_".sol"_)
 - ABI files (_".json"_)
-
-## Documentation
-
-The documentation for the exchange smart contracts is available [here](https://docs.looksrare.org/developers/category/exchange-contracts).
 
 ## About this repo
 
