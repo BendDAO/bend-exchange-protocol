@@ -325,7 +325,7 @@ export function makeSuite(name: string, tests: (contracts: Contracts, env: Env, 
         // Verify the domain separator is properly computed
         assert.equal(
           await contracts.bendExchange.DOMAIN_SEPARATOR(),
-          computeDomainSeparator(contracts.bendExchange.address)
+          computeDomainSeparator((await ethers.provider.getNetwork()).chainId, contracts.bendExchange.address)
         );
         snapshots.capture("setup");
       }

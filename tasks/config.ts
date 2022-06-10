@@ -52,3 +52,8 @@ export const ProtocolFee: Params<number> = {
   [Network.rinkeby]: 200,
   [Network.main]: 200,
 };
+
+export const BendAddressesProviders: Params<string> = {
+  [Network.rinkeby]: "0xE55870eBB007a50B0dfAbAdB1a21e4bFcee5299b",
+  [Network.main]: "",
+};

@@ -1,5 +1,4 @@
 import { BigNumber, utils, Wallet } from "ethers";
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 /* eslint-disable node/no-extraneous-import */
 import { TypedDataDomain } from "@ethersproject/abstract-signer";
 /* eslint-disable node/no-extraneous-import */
@@ -7,13 +6,16 @@ import { Signature } from "@ethersproject/bytes";
 /* eslint-disable node/no-extraneous-import */
 import { _TypedDataEncoder } from "@ethersproject/hash";
 import { MakerOrder } from "./order-types";
-import { findPrivateKey } from "./hardhat-keys";
 
 const { defaultAbiCoder, keccak256, solidityPack } = utils;
 
+const BEND_EXCHANGE_NAME = "BendExchange";
+const BEND_EXCHANGE_VERSION = "1";
+
 /**
  * Generate a signature used to generate v, r, s parameters
- * @param signer signer
+ * @param chainId chainId
+ * @param privateKey privateKey
  * @param types solidity types of the value param
  * @param values params to be sent to the Solidity function
  * @param verifyingContract verifying contract address ("BendExchange")
@@ -21,16 +23,17 @@ const { defaultAbiCoder, keccak256, solidityPack } = utils;
  * @see https://docs.ethers.io/v5/api/signer/#Signer-signTypedData
  */
 const signTypedData = async (
-  signer: SignerWithAddress,
+  chainId: number,
+  privateKey: string,
   types: string[],
   values: (string | boolean | BigNumber)[],
   verifyingContract: string
 ): Promise<Signature> => {
   const domain: TypedDataDomain = {
-    name: "BendExchange",
-    version: "1",
-    chainId: "31337", // HRE
-    verifyingContract: verifyingContract,
+    name: BEND_EXCHANGE_NAME,
+    version: BEND_EXCHANGE_VERSION,
+    chainId,
+    verifyingContract,
   };
 
   const domainSeparator = _TypedDataEncoder.hashDomain(domain);
@@ -43,16 +46,16 @@ const signTypedData = async (
     solidityPack(["bytes1", "bytes1", "bytes32", "bytes32"], ["0x19", "0x01", domainSeparator, hash])
   );
 
-  const adjustedSigner = new Wallet(findPrivateKey(signer.address));
+  const adjustedSigner = new Wallet(privateKey);
   return { ...adjustedSigner._signingKey().signDigest(digest) };
 };
 
-export const computeDomainSeparator = (verifyingContract: string): string => {
+export const computeDomainSeparator = (chainId: number, verifyingContract: string): string => {
   const domain: TypedDataDomain = {
-    name: "BendExchange",
-    version: "1",
-    chainId: "31337", // HRE
-    verifyingContract: verifyingContract,
+    name: BEND_EXCHANGE_NAME,
+    version: BEND_EXCHANGE_VERSION,
+    chainId,
+    verifyingContract,
   };
 
   return _TypedDataEncoder.hashDomain(domain);
@@ -106,13 +109,15 @@ export const computeOrderHash = (order: MakerOrder): string => {
 
 /**
  * Create a signature for a maker order
- * @param signer signer for the order
+ * @param chainId chainId
+ * @param privateKey privateKey
  * @param verifyingContract verifying contract address
  * @param order see MakerOrder definition
  * @returns splitted signature
  */
 export const signMakerOrder = (
-  signer: SignerWithAddress,
+  chainId: number,
+  privateKey: string,
   verifyingContract: string,
   order: MakerOrder
 ): Promise<Signature> => {
@@ -154,5 +159,5 @@ export const signMakerOrder = (
     keccak256(order.interceptorExtra),
   ];
 
-  return signTypedData(signer, types, values, verifyingContract);
+  return signTypedData(chainId, privateKey, types, values, verifyingContract);
 };

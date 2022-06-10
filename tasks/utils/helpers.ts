@@ -23,7 +23,7 @@ export const registerContractInJsonDB = async (contractId: string, contractInsta
   }).write();
 };
 
-export const getContractAddressInDB = async (id: string): Promise<string> => {
+export const getContractAddressFromDB = async (id: string): Promise<string> => {
   const contractAtDb = DB.get(id).value();
   if (contractAtDb?.address) {
     return contractAtDb.address;
@@ -67,6 +67,14 @@ export const withSaveAndVerify = async (
   return instance;
 };
 
+export const getChainId = async (): Promise<number> => {
+  return (await DRE.ethers.provider.getNetwork()).chainId;
+};
+
 export const getContract = async (contractName: string, address: string): Promise<Contract> => {
   return await DRE.ethers.getContractAt(contractName, address);
+};
+
+export const getContractFromDB = async (id: string): Promise<Contract> => {
+  return getContract(id, await getContractAddressFromDB(id));
 };

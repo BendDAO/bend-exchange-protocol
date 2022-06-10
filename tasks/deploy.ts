@@ -15,6 +15,8 @@ task("deploy:full", "Deploy all contracts").setAction(async (_, { network, run }
 
   const currencyManager = await deployContract("CurrencyManager", [], true);
 
+  await currencyManager.connect(deployer).addCurrency(weth);
+
   const executionManager = await deployContract("ExecutionManager", [], true);
   const strategyStandardSaleForFixedPrice = await deployContract(
     "StrategyStandardSaleForFixedPrice",

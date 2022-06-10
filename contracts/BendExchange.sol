@@ -37,7 +37,7 @@ contract BendExchange is IBendExchange, ReentrancyGuard, Ownable {
     using OrderTypes for OrderTypes.TakerOrder;
 
     string public constant NAME = "BendExchange";
-    string public constant VERSION = "1.0";
+    string public constant VERSION = "1";
 
     address public immutable WETH;
     bytes32 public immutable DOMAIN_SEPARATOR;
