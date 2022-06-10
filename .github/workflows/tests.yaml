@@ -12,11 +12,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          submodules: recursive
+          persist-credentials: false
+      - name: Reconfigure git to use HTTP authentication
+        run: >
+          git config --global url."https://github.com/".insteadOf
+          ssh://git@github.com/
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 14.x
+          node-version: 16.x
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -29,10 +33,6 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install dev dependencies
         run: yarn install --frozen-lockfile
-      - name: Install Foundry
-        uses: onbjerg/foundry-toolchain@v1
-        with:
-          version: nightly
       - name: Compile code (Hardhat)
         run: yarn compile:force
       - name: Run TypeScript/Waffle tests
