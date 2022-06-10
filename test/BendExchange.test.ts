@@ -95,10 +95,9 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
         await contracts.bendExchange.isUserOrderNonceExecutedOrCancelled(makerAskUser.address, makerAskOrder.nonce)
       );
 
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
-      assert.deepEqual(expectedMakerBalanceInETH, await ethers.provider.getBalance(makerAskUser.address));
-      assert.deepEqual(
-        expectedTakerBalanceInETH.sub(await gasCost(tx)),
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedMakerBalanceInETH).to.be.eq(await ethers.provider.getBalance(makerAskUser.address));
+      expect(expectedTakerBalanceInETH.sub(await gasCost(tx))).to.be.eq(
         await ethers.provider.getBalance(takerBidUser.address)
       );
 
@@ -180,10 +179,9 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
         await contracts.bendExchange.isUserOrderNonceExecutedOrCancelled(makerAskUser.address, makerAskOrder.nonce)
       );
 
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
-      assert.deepEqual(expectedMakerBalanceInWETH, await contracts.weth.balanceOf(makerAskUser.address));
-      assert.deepEqual(
-        expectedTakerBalanceInETH.sub(await gasCost(tx)),
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedMakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(makerAskUser.address));
+      expect(expectedTakerBalanceInETH.sub(await gasCost(tx))).to.be.eq(
         await ethers.provider.getBalance(takerBidUser.address)
       );
 
@@ -268,13 +266,12 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
       );
 
       // Check balance of WETH is same as expected
-      assert.deepEqual(expectedTakerBalanceInWETH, await contracts.weth.balanceOf(takerBidUser.address));
-      assert.deepEqual(
-        expectedTakerBalanceInETH.sub(await gasCost(tx)),
+      expect(expectedTakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(takerBidUser.address));
+      expect(expectedTakerBalanceInETH.sub(await gasCost(tx))).to.be.eq(
         await ethers.provider.getBalance(takerBidUser.address)
       );
-      assert.deepEqual(expectedMakerBalanceInETH, await ethers.provider.getBalance(makerAskUser.address));
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedMakerBalanceInETH).to.be.eq(await ethers.provider.getBalance(makerAskUser.address));
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
     });
 
     it("Standard Order ERC721/(ETH + WETH) - MakerAsk order is matched by TakerBid order, maker require WETH", async () => {
@@ -352,13 +349,12 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
       );
 
       // Check balance of WETH is same as expected
-      assert.deepEqual(expectedTakerBalanceInWETH, await contracts.weth.balanceOf(takerBidUser.address));
-      assert.deepEqual(
-        expectedTakerBalanceInETH.sub(await gasCost(tx)),
+      expect(expectedTakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(takerBidUser.address));
+      expect(expectedTakerBalanceInETH.sub(await gasCost(tx))).to.be.eq(
         await ethers.provider.getBalance(takerBidUser.address)
       );
-      assert.deepEqual(expectedMakerBalanceInWETH, await contracts.weth.balanceOf(makerAskUser.address));
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedMakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(makerAskUser.address));
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
     });
 
     it("Standard Order ERC1155/ETH  - MakerAsk order is matched by TakerBid order, maker require ETH", async () => {
@@ -431,12 +427,11 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
         await contracts.bendExchange.isUserOrderNonceExecutedOrCancelled(makerAskUser.address, makerAskOrder.nonce)
       );
 
-      assert.deepEqual(
-        expectedTakerBalanceInETH.sub(await gasCost(tx)),
+      expect(expectedTakerBalanceInETH.sub(await gasCost(tx))).to.be.eq(
         await ethers.provider.getBalance(takerBidUser.address)
       );
-      assert.deepEqual(expectedMakerBalanceInETH, await ethers.provider.getBalance(makerAskUser.address));
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedMakerBalanceInETH).to.be.eq(await ethers.provider.getBalance(makerAskUser.address));
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
 
       // User 2 had minted 2 tokenId=1 so he has 4
       assert.equal((await contracts.mockERC1155.balanceOf(takerBidUser.address, "1")).toString(), "4");
@@ -512,12 +507,11 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
         await contracts.bendExchange.isUserOrderNonceExecutedOrCancelled(makerAskUser.address, makerAskOrder.nonce)
       );
 
-      assert.deepEqual(
-        expectedTakerBalanceInETH.sub(await gasCost(tx)),
+      expect(expectedTakerBalanceInETH.sub(await gasCost(tx))).to.be.eq(
         await ethers.provider.getBalance(takerBidUser.address)
       );
-      assert.deepEqual(expectedMakerBalanceInWETH, await contracts.weth.balanceOf(makerAskUser.address));
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedMakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(makerAskUser.address));
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
       // User 2 had minted 2 tokenId=1 so he has 4
       assert.equal((await contracts.mockERC1155.balanceOf(takerBidUser.address, "1")).toString(), "4");
     });
@@ -585,10 +579,9 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
 
       assert.equal(await contracts.mockERC721.ownerOf("0"), makerBidUser.address);
 
-      assert.deepEqual(expectedMakerBalanceInWETH, await contracts.weth.balanceOf(makerBidUser.address));
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
-      assert.deepEqual(
-        expectedTakerBalanceInETH.sub(await gasCost(tx)),
+      expect(expectedMakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(makerBidUser.address));
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedTakerBalanceInETH.sub(await gasCost(tx))).to.be.eq(
         await ethers.provider.getBalance(takerAskUser.address)
       );
 
@@ -662,9 +655,9 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
 
       assert.equal(await contracts.mockERC721.ownerOf("0"), makerBidUser.address);
 
-      assert.deepEqual(expectedMakerBalanceInWETH, await contracts.weth.balanceOf(makerBidUser.address));
-      assert.deepEqual(expectedTakerBalanceInWETH, await contracts.weth.balanceOf(takerAskUser.address));
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedMakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(makerBidUser.address));
+      expect(expectedTakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(takerAskUser.address));
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
 
       assert.isTrue(
         await contracts.bendExchange.isUserOrderNonceExecutedOrCancelled(makerBidUser.address, makerBidOrder.nonce)
@@ -736,12 +729,11 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
         await contracts.bendExchange.isUserOrderNonceExecutedOrCancelled(makerBidUser.address, makerBidOrder.nonce)
       );
 
-      assert.deepEqual(expectedMakerBalanceInWETH, await contracts.weth.balanceOf(makerBidUser.address));
-      assert.deepEqual(
-        expectedTakerBalanceInETH.sub(await gasCost(tx)),
+      expect(expectedMakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(makerBidUser.address));
+      expect(expectedTakerBalanceInETH.sub(await gasCost(tx))).to.be.eq(
         await ethers.provider.getBalance(takerAskUser.address)
       );
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
     });
 
     it("Standard Order ERC1155/WETH - MakerBid order is matched by TakerAsk order, maker bid with WETH", async () => {
@@ -809,9 +801,9 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
         await contracts.bendExchange.isUserOrderNonceExecutedOrCancelled(makerBidUser.address, makerBidOrder.nonce)
       );
 
-      assert.deepEqual(expectedMakerBalanceInWETH, await contracts.weth.balanceOf(makerBidUser.address));
-      assert.deepEqual(expectedTakerBalanceInWETH, await contracts.weth.balanceOf(takerAskUser.address));
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedMakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(makerBidUser.address));
+      expect(expectedTakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(takerAskUser.address));
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
     });
   });
 
@@ -969,8 +961,7 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
 
       // Verify funds/tokens were transferred
       assert.equal(await contracts.mockERC721.ownerOf("1"), takerBidUser.address);
-      assert.deepEqual(
-        await contracts.weth.balanceOf(mockSignerContract.address),
+      expect(await contracts.weth.balanceOf(mockSignerContract.address)).to.be.eq(
         takerBidOrder.price.mul("9800").div("10000")
       );
 
@@ -983,7 +974,7 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
 
       // Withdraw WETH back
       await mockSignerContract.connect(userSigningThroughContract).withdrawERC20(contracts.weth.address);
-      assert.deepEqual(await contracts.weth.balanceOf(mockSignerContract.address), constants.Zero);
+      expect(await contracts.weth.balanceOf(mockSignerContract.address)).to.be.eq(constants.Zero);
     });
   });
 
@@ -996,7 +987,7 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
       assert.isTrue(await contracts.mockERC721WithRoyalty.supportsInterface("0x2a55205a"));
 
       // Verify balance of env.royaltyCollector is 0
-      assert.deepEqual(await contracts.weth.balanceOf(env.royaltyCollector.address), constants.Zero);
+      expect(await contracts.weth.balanceOf(env.royaltyCollector.address)).to.be.eq(constants.Zero);
 
       const makerAskOrder = await createMakerOrder({
         isOrderAsk: true,
@@ -1063,7 +1054,7 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
       );
 
       // Verify WETH balance of royalty collector has increased
-      assert.deepEqual(await contracts.weth.balanceOf(env.royaltyCollector.address), expectedRoyaltyAmount);
+      expect(await contracts.weth.balanceOf(env.royaltyCollector.address)).to.be.eq(expectedRoyaltyAmount);
     });
 
     it("Fee/Royalty - Payment with ERC2981 works for ETH orders", async () => {
@@ -1074,7 +1065,7 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
       assert.isTrue(await contracts.mockERC721WithRoyalty.supportsInterface("0x2a55205a"));
 
       // Verify balance of env.royaltyCollector is 0
-      assert.deepEqual(await contracts.weth.balanceOf(env.royaltyCollector.address), constants.Zero);
+      expect(await contracts.weth.balanceOf(env.royaltyCollector.address)).to.be.eq(constants.Zero);
 
       const makerAskOrder = await createMakerOrder({
         isOrderAsk: true,
@@ -1145,7 +1136,7 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
       );
 
       // Verify WETH balance of royalty collector has increased
-      assert.deepEqual(await contracts.weth.balanceOf(env.royaltyCollector.address), expectedRoyaltyAmount);
+      expect(await contracts.weth.balanceOf(env.royaltyCollector.address)).to.be.eq(expectedRoyaltyAmount);
     });
 
     it("Fee/Royalty - Payment for custom integration works", async () => {
@@ -1173,7 +1164,7 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
       assert.equal(result[2].toString(), fee);
 
       // Verify balance of env.royaltyCollector is 0
-      assert.deepEqual(await contracts.weth.balanceOf(env.royaltyCollector.address), constants.Zero);
+      expect(await contracts.weth.balanceOf(env.royaltyCollector.address)).to.be.eq(constants.Zero);
 
       const makerAskOrder = await createMakerOrder({
         isOrderAsk: true,
@@ -1241,7 +1232,7 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
       );
 
       // Verify WETH balance of royalty collector has increased
-      assert.deepEqual(await contracts.weth.balanceOf(env.royaltyCollector.address), expectedRoyaltyAmount);
+      expect(await contracts.weth.balanceOf(env.royaltyCollector.address)).to.be.eq(expectedRoyaltyAmount);
     });
 
     it("Fee/Royalty - Slippage protection works for MakerAsk", async () => {
@@ -1420,7 +1411,7 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
       const takerBidUser = env.accounts[2];
 
       // Verify balance of env.royaltyCollector is 0
-      assert.deepEqual(await contracts.weth.balanceOf(env.royaltyCollector.address), constants.Zero);
+      expect(await contracts.weth.balanceOf(env.royaltyCollector.address)).to.be.eq(constants.Zero);
 
       const makerAskOrder = await createMakerOrder({
         isOrderAsk: true,
@@ -1480,13 +1471,12 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
       );
 
       // Verify WETH balance of royalty collector has increased
-      assert.deepEqual(
-        await contracts.weth.balanceOf(env.royaltyCollector.address),
+      expect(await contracts.weth.balanceOf(env.royaltyCollector.address)).to.be.eq(
         takerBidOrder.price.mul("200").div("10000")
       );
 
       // Verify balance of env.admin (aka treasury) is 0
-      assert.deepEqual(await contracts.weth.balanceOf(env.admin.address), constants.Zero);
+      expect(await contracts.weth.balanceOf(env.admin.address)).to.be.eq(constants.Zero);
     });
   });
 

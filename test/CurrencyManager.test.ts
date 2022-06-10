@@ -42,10 +42,10 @@ makeSuite("CurrencyManager", (contracts: Contracts, env: Env) => {
 
     let tx = await contracts.currencyManager.viewWhitelistedCurrencies("0", "1");
     assert.equal(tx[0].length, 1);
-    assert.deepEqual(BigNumber.from(tx[1].toString()), constants.One);
+    expect(BigNumber.from(tx[1].toString())).to.be.eq(constants.One);
 
     tx = await contracts.currencyManager.viewWhitelistedCurrencies("1", "100");
     assert.equal(tx[0].length, 1);
-    assert.deepEqual(BigNumber.from(tx[1].toString()), BigNumber.from(numberCurrencies.toString()));
+    expect(BigNumber.from(tx[1].toString())).to.be.eq(BigNumber.from(numberCurrencies.toString()));
   });
 });

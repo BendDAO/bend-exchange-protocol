@@ -31,10 +31,10 @@ makeSuite("ExecutionManager", (contracts: Contracts, env: Env) => {
 
     let tx = await contracts.executionManager.viewWhitelistedStrategies("0", "2");
     assert.equal(tx[0].length, 2);
-    assert.deepEqual(BigNumber.from(tx[1].toString()), constants.Two);
+    expect(BigNumber.from(tx[1].toString())).to.be.eq(constants.Two);
 
     tx = await contracts.executionManager.viewWhitelistedStrategies("2", "100");
     assert.equal(tx[0].length, 3);
-    assert.deepEqual(BigNumber.from(tx[1].toString()), BigNumber.from(numberStrategies.toString()));
+    expect(BigNumber.from(tx[1].toString())).to.be.eq(BigNumber.from(numberStrategies.toString()));
   });
 });

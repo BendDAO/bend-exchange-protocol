@@ -84,7 +84,7 @@ makeSuite("Strategy - PrivateSale", (contracts: Contracts, env: Env, snapshots: 
       interceptorExtra: emptyEncodedBytes,
     });
 
-    assert.deepEqual(await contracts.weth.balanceOf(env.feeRecipient.address), constants.Zero);
+    expect(await contracts.weth.balanceOf(env.feeRecipient.address)).to.be.eq(constants.Zero);
 
     const tx = await contracts.bendExchange.connect(takerBidUser).matchAskWithTakerBid(takerBidOrder, makerAskOrder);
     await expect(tx)
@@ -107,7 +107,7 @@ makeSuite("Strategy - PrivateSale", (contracts: Contracts, env: Env, snapshots: 
       await contracts.bendExchange.isUserOrderNonceExecutedOrCancelled(makerAskUser.address, makerAskOrder.nonce)
     );
     // Verify balance of treasury (aka env.feeRecipient) is 0
-    assert.deepEqual(await contracts.weth.balanceOf(env.feeRecipient.address), constants.Zero);
+    expect(await contracts.weth.balanceOf(env.feeRecipient.address)).to.be.eq(constants.Zero);
   });
 
   it("ERC721 -  No platform fee, only target can buy", async () => {
@@ -168,7 +168,7 @@ makeSuite("Strategy - PrivateSale", (contracts: Contracts, env: Env, snapshots: 
       interceptorExtra: emptyEncodedBytes,
     });
 
-    assert.deepEqual(await contracts.weth.balanceOf(env.feeRecipient.address), constants.Zero);
+    expect(await contracts.weth.balanceOf(env.feeRecipient.address)).to.be.eq(constants.Zero);
 
     const tx = await contracts.bendExchange.connect(takerBidUser).matchAskWithTakerBid(takerBidOrder, makerAskOrder);
     await expect(tx)
@@ -191,7 +191,7 @@ makeSuite("Strategy - PrivateSale", (contracts: Contracts, env: Env, snapshots: 
       await contracts.bendExchange.isUserOrderNonceExecutedOrCancelled(makerAskUser.address, makerAskOrder.nonce)
     );
     // Verify balance of treasury (aka env.feeRecipient) is 0
-    assert.deepEqual(await contracts.weth.balanceOf(env.feeRecipient.address), constants.Zero);
+    expect(await contracts.weth.balanceOf(env.feeRecipient.address)).to.be.eq(constants.Zero);
   });
 
   it("Cannot match if wrong side", async () => {

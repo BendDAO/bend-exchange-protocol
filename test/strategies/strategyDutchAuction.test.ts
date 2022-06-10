@@ -163,7 +163,7 @@ makeSuite("Strategy - Dutch Auction", (contracts: Contracts, env: Env, snapshots
       .withArgs(takerBidUser.address, env.feeRecipient.address, takerBidOrder.price.mul(protocolFee).div("10000"));
 
     // User 2 had minted 2 tokenId=1 so he has 4
-    assert.deepEqual(await contracts.mockERC1155.balanceOf(takerBidUser.address, "1"), BigNumber.from("4"));
+    expect(await contracts.mockERC1155.balanceOf(takerBidUser.address, "1")).to.be.eq(BigNumber.from("4"));
   });
 
   it("Revert if start price is lower than end price", async () => {

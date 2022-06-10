@@ -33,7 +33,7 @@ makeSuite("InterceptorManager", (contracts: Contracts, env: Env) => {
 
     let tx = await contracts.interceptorManager.viewWhitelistedInterceptors("0", "1");
     assert.equal(tx[0].length, 1);
-    assert.deepEqual(BigNumber.from(tx[1].toString()), constants.One);
+    expect(BigNumber.from(tx[1].toString())).to.be.eq(constants.One);
 
     tx = await contracts.interceptorManager.viewWhitelistedInterceptors("1", "100");
     assert.equal(tx[0].length, 0);

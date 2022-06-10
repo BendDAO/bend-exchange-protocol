@@ -110,10 +110,9 @@ makeSuite("RedeemNFT", (contracts: Contracts, env: Env, snapshots: Snapshots) =>
         await contracts.bendExchange.isUserOrderNonceExecutedOrCancelled(makerAskUser.address, makerAskOrder.nonce)
       );
 
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
-      assert.deepEqual(expectedMakerBalanceInWETH, await contracts.weth.balanceOf(makerAskUser.address));
-      assert.deepEqual(
-        expectedTakerBalanceInETH.sub(await gasCost(tx)),
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedMakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(makerAskUser.address));
+      expect(expectedTakerBalanceInETH.sub(await gasCost(tx))).to.be.eq(
         await ethers.provider.getBalance(takerBidUser.address)
       );
 
@@ -186,9 +185,9 @@ makeSuite("RedeemNFT", (contracts: Contracts, env: Env, snapshots: Snapshots) =>
       assert.isTrue(
         await contracts.bendExchange.isUserOrderNonceExecutedOrCancelled(makerBidUser.address, makerBidOrder.nonce)
       );
-      assert.deepEqual(expectedTakerBalanceInWETH, await contracts.weth.balanceOf(takerAskUser.address));
-      assert.deepEqual(expectedMakerBalanceInWETH, await contracts.weth.balanceOf(makerBidUser.address));
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedTakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(takerAskUser.address));
+      expect(expectedMakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(makerBidUser.address));
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
     });
   });
 
@@ -274,10 +273,9 @@ makeSuite("RedeemNFT", (contracts: Contracts, env: Env, snapshots: Snapshots) =>
         await contracts.bendExchange.isUserOrderNonceExecutedOrCancelled(makerAskUser.address, makerAskOrder.nonce)
       );
 
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
-      assert.deepEqual(expectedMakerBalanceInWETH, await contracts.weth.balanceOf(makerAskUser.address));
-      assert.deepEqual(
-        expectedTakerBalanceInETH.sub(await gasCost(tx)),
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedMakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(makerAskUser.address));
+      expect(expectedTakerBalanceInETH.sub(await gasCost(tx))).to.be.eq(
         await ethers.provider.getBalance(takerBidUser.address)
       );
 
@@ -373,13 +371,12 @@ makeSuite("RedeemNFT", (contracts: Contracts, env: Env, snapshots: Snapshots) =>
       );
 
       // Check balance of WETH is same as expected
-      assert.deepEqual(expectedTakerBalanceInWETH, await contracts.weth.balanceOf(takerBidUser.address));
-      assert.deepEqual(
-        expectedTakerBalanceInETH.sub(await gasCost(tx)),
+      expect(expectedTakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(takerBidUser.address));
+      expect(expectedTakerBalanceInETH.sub(await gasCost(tx))).to.be.eq(
         await ethers.provider.getBalance(takerBidUser.address)
       );
-      assert.deepEqual(expectedMakerBalanceInWETH, await contracts.weth.balanceOf(makerAskUser.address));
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedMakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(makerAskUser.address));
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
     });
 
     it("Order NFT/WETH - MakerBid order is matched by TakerAsk order", async () => {
@@ -456,9 +453,9 @@ makeSuite("RedeemNFT", (contracts: Contracts, env: Env, snapshots: Snapshots) =>
       assert.isTrue(
         await contracts.bendExchange.isUserOrderNonceExecutedOrCancelled(makerBidUser.address, makerBidOrder.nonce)
       );
-      assert.deepEqual(expectedTakerBalanceInWETH, await contracts.weth.balanceOf(takerAskUser.address));
-      assert.deepEqual(expectedMakerBalanceInWETH, await contracts.weth.balanceOf(makerBidUser.address));
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedTakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(takerAskUser.address));
+      expect(expectedMakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(makerBidUser.address));
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
     });
 
     it("Order NFT/(ETH + WETH) - MakerAsk order is matched by TakerBid order, maker require ETH", async () => {
@@ -545,13 +542,12 @@ makeSuite("RedeemNFT", (contracts: Contracts, env: Env, snapshots: Snapshots) =>
       );
 
       // Check balance is same as expected
-      assert.deepEqual(expectedTakerBalanceInWETH, await contracts.weth.balanceOf(takerBidUser.address));
-      assert.deepEqual(
-        expectedTakerBalanceInETH.sub(await gasCost(tx)),
+      expect(expectedTakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(takerBidUser.address));
+      expect(expectedTakerBalanceInETH.sub(await gasCost(tx))).to.be.eq(
         await ethers.provider.getBalance(takerBidUser.address)
       );
-      assert.deepEqual(expectedMakerBalanceInETH, await ethers.provider.getBalance(makerAskUser.address));
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedMakerBalanceInETH).to.be.eq(await ethers.provider.getBalance(makerAskUser.address));
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
     });
   });
   describe("#3 - Nft in auction", async () => {
@@ -637,10 +633,9 @@ makeSuite("RedeemNFT", (contracts: Contracts, env: Env, snapshots: Snapshots) =>
         await contracts.bendExchange.isUserOrderNonceExecutedOrCancelled(makerAskUser.address, makerAskOrder.nonce)
       );
 
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
-      assert.deepEqual(expectedMakerBalanceInWETH, await contracts.weth.balanceOf(makerAskUser.address));
-      assert.deepEqual(
-        expectedTakerBalanceInETH.sub(await gasCost(tx)),
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedMakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(makerAskUser.address));
+      expect(expectedTakerBalanceInETH.sub(await gasCost(tx))).to.be.eq(
         await ethers.provider.getBalance(takerBidUser.address)
       );
 
@@ -738,13 +733,12 @@ makeSuite("RedeemNFT", (contracts: Contracts, env: Env, snapshots: Snapshots) =>
       );
 
       // Check balance of WETH is same as expected
-      assert.deepEqual(expectedTakerBalanceInWETH, await contracts.weth.balanceOf(takerBidUser.address));
-      assert.deepEqual(
-        expectedTakerBalanceInETH.sub(await gasCost(tx)),
+      expect(expectedTakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(takerBidUser.address));
+      expect(expectedTakerBalanceInETH.sub(await gasCost(tx))).to.be.eq(
         await ethers.provider.getBalance(takerBidUser.address)
       );
-      assert.deepEqual(expectedMakerBalanceInWETH, await contracts.weth.balanceOf(makerAskUser.address));
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedMakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(makerAskUser.address));
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
     });
 
     it("Order NFT/WETH - MakerBid order is matched by TakerAsk order", async () => {
@@ -822,9 +816,9 @@ makeSuite("RedeemNFT", (contracts: Contracts, env: Env, snapshots: Snapshots) =>
       assert.isTrue(
         await contracts.bendExchange.isUserOrderNonceExecutedOrCancelled(makerBidUser.address, makerBidOrder.nonce)
       );
-      assert.deepEqual(expectedTakerBalanceInWETH, await contracts.weth.balanceOf(takerAskUser.address));
-      assert.deepEqual(expectedMakerBalanceInWETH, await contracts.weth.balanceOf(makerBidUser.address));
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedTakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(takerAskUser.address));
+      expect(expectedMakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(makerBidUser.address));
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
     });
 
     it("Order/BNFT/(ETH + WETH) - MakerAsk order with native ETH currency is matched by TakerBid order", async () => {
@@ -912,13 +906,12 @@ makeSuite("RedeemNFT", (contracts: Contracts, env: Env, snapshots: Snapshots) =>
       );
 
       // Check balance is same as expected
-      assert.deepEqual(expectedTakerBalanceInWETH, await contracts.weth.balanceOf(takerBidUser.address));
-      assert.deepEqual(
-        expectedTakerBalanceInETH.sub(await gasCost(tx)),
+      expect(expectedTakerBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(takerBidUser.address));
+      expect(expectedTakerBalanceInETH.sub(await gasCost(tx))).to.be.eq(
         await ethers.provider.getBalance(takerBidUser.address)
       );
-      assert.deepEqual(expectedMakerBalanceInETH, await ethers.provider.getBalance(makerAskUser.address));
-      assert.deepEqual(expectedFeeBalanceInWETH, await contracts.weth.balanceOf(env.feeRecipient.address));
+      expect(expectedMakerBalanceInETH).to.be.eq(await ethers.provider.getBalance(makerAskUser.address));
+      expect(expectedFeeBalanceInWETH).to.be.eq(await contracts.weth.balanceOf(env.feeRecipient.address));
     });
   });
   describe("#4 - Revertions", async () => {
