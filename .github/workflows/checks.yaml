@@ -3,7 +3,7 @@ name: Format and lint checks
 on:
   pull_request:
   push:
-    branches: [main,release,dev]
+    branches: [main, release, dev]
 
 jobs:
   format:

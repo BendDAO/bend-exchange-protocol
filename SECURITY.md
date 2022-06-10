@@ -10,8 +10,8 @@
 
 Vulnerabilities can be reported using [Immunefi](https://immunefi.com/). The process is secure and vulnerabilities can be disclosed anonymously.
 
-To learn more, [please visit the Immunefi bug bounty page](https://immunefi.com/bounty/looksrare/).
+To learn more, [please visit the Immunefi bug bounty page](https://immunefi.com/bounty/benddao/).
 
 ## Current audits
 
-Third-party audits are available [here](https://docs.looksrare.org/about/audits).
+Third-party audits are available [here](https://docs.benddao.xyz/portal/risk/security-and-audits).
