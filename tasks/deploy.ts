@@ -51,7 +51,6 @@ task("deploy:full", "Deploy all contracts").setAction(async (_, { network, run }
       executionManager.address,
       royaltyFeeManager.address,
       weth,
-      // getParamPerNetwork(FeeRecipient, network.name),
       await deployer.getAddress(),
     ],
     true

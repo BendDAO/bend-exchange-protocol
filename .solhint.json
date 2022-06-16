@@ -2,11 +2,13 @@
   "extends": "solhint:recommended",
   "rules": {
     "compiler-version": ["error", "0.8.9"],
-    "func-visibility": [{ "ignoreConstructors": true }],
+    "func-visibility": ["error", { "ignoreConstructors": true }],
     "func-name-mixedcase": "off",
+    "no-inline-assembly": "off",
     "not-rely-on-time": "off",
     "reason-string": "off",
     "var-name-mixedcase": "off",
-    "avoid-low-level-calls": "off"
+    "avoid-low-level-calls": "off",
+    "no-empty-blocks": "off"
   }
 }
