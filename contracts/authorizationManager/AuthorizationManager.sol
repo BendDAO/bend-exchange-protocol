@@ -9,8 +9,8 @@ import {AuthenticatedProxy} from "./AuthenticatedProxy.sol";
 contract AuthorizationManager is Ownable, IAuthorizationManager {
     mapping(address => address) public override proxies;
     address public immutable override authorizedAddress;
-    bool public override revoked;
     address public immutable WETH;
+    bool public override revoked;
 
     event Revoked();
 

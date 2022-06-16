@@ -186,11 +186,13 @@ contract BendExchange is IBendExchange, ReentrancyGuard, Ownable {
         // If not enough ETH to cover the price, use WETH
         require(takerBid.price >= msg.value, "Order: msg.value too high");
 
-        // Wrap ETH sent to this contract
-        IWETH(WETH).deposit{value: msg.value}();
+        if (msg.value > 0) {
+            // Wrap ETH sent to this contract
+            IWETH(WETH).deposit{value: msg.value}();
 
-        // Sent WETH back to sender
-        IERC20(WETH).safeTransferFrom(address(this), msg.sender, msg.value);
+            // Sent WETH back to sender
+            IERC20(WETH).safeTransferFrom(address(this), msg.sender, msg.value);
+        }
 
         // Check the maker ask order
         bytes32 askHash = makerAsk.hash();

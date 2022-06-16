@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GNU
-pragma solidity >=0.5.0;
+pragma solidity 0.8.9;
 
 interface IWETH {
     function balanceOf(address) external view returns (uint256);

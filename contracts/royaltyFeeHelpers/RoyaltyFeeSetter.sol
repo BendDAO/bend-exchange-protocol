@@ -147,7 +147,9 @@ contract RoyaltyFeeSetter is Ownable {
             if (interfaceSupport) {
                 return (address(0), 1);
             }
-        } catch {}
+        } catch {
+            // do nothing
+        }
 
         try IOwnable(collection).owner() returns (address setter) {
             return (setter, 2);
