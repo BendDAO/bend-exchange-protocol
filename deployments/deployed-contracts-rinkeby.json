@@ -1,54 +1,54 @@
 {
   "CurrencyManager": {
-    "address": "0x30B67628365c7714E133D96cF868A08153cf6efd",
+    "address": "0x06C154864f66d58004e66Cd6Dcd2871d3F30BdC0",
     "deployer": "0xcbb8a164d498e0c2312F0DDcF0a6Ee2F5bad983A"
   },
   "ExecutionManager": {
-    "address": "0xBE8cb8919826F338eA557ddBd02fc97DE40378CC",
+    "address": "0x8f4475319B1038d18Df590d1B1Be19b1C40b3711",
     "deployer": "0xcbb8a164d498e0c2312F0DDcF0a6Ee2F5bad983A"
   },
   "StrategyStandardSaleForFixedPrice": {
-    "address": "0x43a851160dE8b03D633ceae07321b5e236aBaBbB",
+    "address": "0xC2A7b92C31e8ADdA71e8AB8bfe23955053D508aB",
     "deployer": "0xcbb8a164d498e0c2312F0DDcF0a6Ee2F5bad983A"
   },
   "RoyaltyFeeRegistry": {
-    "address": "0xD8f1970ca7F8D12b40112ED942e95c7a767084d2",
+    "address": "0x8B9b62CBD5E8a901e35A3B5BF869F899A682B75C",
     "deployer": "0xcbb8a164d498e0c2312F0DDcF0a6Ee2F5bad983A"
   },
   "RoyaltyFeeSetter": {
-    "address": "0xe86D19171F50f7291352C6Cd172Ea974E4D64724",
+    "address": "0xFf56969A4643851a046dCAC9BA4001D954d4bE71",
     "deployer": "0xcbb8a164d498e0c2312F0DDcF0a6Ee2F5bad983A"
   },
   "RoyaltyFeeManager": {
-    "address": "0x371Af472C0a1EfF9998a78b2432626223DdF50d1",
+    "address": "0x784F94116b5784Aebf98EC08e4CA51A7890b76cf",
     "deployer": "0xcbb8a164d498e0c2312F0DDcF0a6Ee2F5bad983A"
   },
   "TransferERC721": {
-    "address": "0x401256adEe5a0ccC28c16eC9444EdaFDe1aB1954",
+    "address": "0x2d0E25971E8f4221A6BaE4E8b7FfE441Cf402eF5",
     "deployer": "0xcbb8a164d498e0c2312F0DDcF0a6Ee2F5bad983A"
   },
   "TransferERC1155": {
-    "address": "0x5C333Eb57E782f1CDF056e25898d0E1EEe69f3d1",
+    "address": "0x444AbCbbffA5A295e1D91173A18053093700E609",
     "deployer": "0xcbb8a164d498e0c2312F0DDcF0a6Ee2F5bad983A"
   },
   "TransferManager": {
-    "address": "0xFFA3c05639A42450A23fF9eD4508Add70d2CcE7a",
+    "address": "0x924a2874effa27e6B99b1F822B6ff9182426e713",
     "deployer": "0xcbb8a164d498e0c2312F0DDcF0a6Ee2F5bad983A"
   },
   "RedeemNFT": {
-    "address": "0xeEe2F6B499bE9Bd8e89C566fc3c7E22Bf3Bddf8b",
+    "address": "0x1703b4DfA9844E67C80d1ebEfe39F8c2796E5ac8",
     "deployer": "0xcbb8a164d498e0c2312F0DDcF0a6Ee2F5bad983A"
   },
   "InterceptorManager": {
-    "address": "0xb7f729E219701F1Ab831118D170825C9923111ef",
+    "address": "0xe410f3cc1aeBE9D8555831AbF62A997Fd9C528d4",
     "deployer": "0xcbb8a164d498e0c2312F0DDcF0a6Ee2F5bad983A"
   },
   "BendExchange": {
-    "address": "0x4F8A1d36C7B8386a659410e1C9839fa3c2339BE5",
+    "address": "0xFeCfD28A068BcB9AAeB1c830870093B24750B076",
     "deployer": "0xcbb8a164d498e0c2312F0DDcF0a6Ee2F5bad983A"
   },
   "AuthorizationManager": {
-    "address": "0xcb9089Ea3f3673Db704AA61c1cEaa760c4a4547b",
+    "address": "0x43C18Fc06f3E6C94c0A1Ee602b45A1554d3e10C0",
     "deployer": "0xcbb8a164d498e0c2312F0DDcF0a6Ee2F5bad983A"
   }
 }

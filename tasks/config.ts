@@ -34,7 +34,7 @@ export const NETWORKS_RPC_URL: Params<string> = {
 };
 
 export const WETH: Params<string> = {
-  [Network.rinkeby]: "0xb49dBe8e2A5a140b3b810c33ac2ba4907A3CA95e",
+  [Network.rinkeby]: "0xc778417e063141139fce010982780140aa0cd5ab",
   [Network.main]: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
 };
 
