@@ -4,12 +4,15 @@ pragma solidity 0.8.9;
 import {IAuthenticatedProxy} from "../interfaces/IAuthenticatedProxy.sol";
 import {IAuthorizationManager} from "../interfaces/IAuthorizationManager.sol";
 import {IWETH} from "../interfaces/IWETH.sol";
-import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {IERC20, SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {Initializable} from "@openzeppelin/contracts/proxy/utils/Initializable.sol";
+import {Address} from "@openzeppelin/contracts/utils/Address.sol";
 
-contract AuthenticatedProxy is IAuthenticatedProxy {
-    address public immutable owner;
-    IAuthorizationManager public immutable authorizationManager;
-    address public immutable WETH;
+contract AuthenticatedProxy is IAuthenticatedProxy, Initializable {
+    using SafeERC20 for IERC20;
+    address public owner;
+    IAuthorizationManager public authorizationManager;
+    address public WETH;
     bool public revoked;
 
     event Revoked(bool revoked);
@@ -23,11 +26,11 @@ contract AuthenticatedProxy is IAuthenticatedProxy {
         _;
     }
 
-    constructor(
+    function initialize(
         address _owner,
         address _authorizationManager,
         address _WETH
-    ) {
+    ) external initializer {
         owner = _owner;
         authorizationManager = IAuthorizationManager(_authorizationManager);
         WETH = _WETH;
@@ -44,19 +47,18 @@ contract AuthenticatedProxy is IAuthenticatedProxy {
         address to,
         uint256 amount
     ) external override onlyOwnerOrAuthed {
-        require(IERC20(token).transferFrom(owner, to, amount), "Proxy: transfer failed");
+        IERC20(token).safeTransferFrom(owner, to, amount);
     }
 
     function withdrawETH() external override onlyOwnerOrAuthed {
         uint256 amount = IWETH(WETH).balanceOf(address(this));
         IWETH(WETH).withdraw(amount);
-        (bool success, ) = owner.call{value: amount}("");
-        require(success, "Proxy: withdraw ETH failed");
+        Address.sendValue(payable(owner), amount);
     }
 
     function withdrawToken(address token) external override onlyOwnerOrAuthed {
         uint256 amount = IERC20(token).balanceOf(address(this));
-        require(IERC20(token).transfer(owner, amount), "Proxy: withdraw token failed");
+        IERC20(token).safeTransfer(owner, amount);
     }
 
     function delegatecall(address dest, bytes memory data)

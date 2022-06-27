@@ -2,6 +2,12 @@
 pragma solidity 0.8.9;
 
 interface IAuthenticatedProxy {
+    function initialize(
+        address _owner,
+        address _authorizationManager,
+        address _WETH
+    ) external;
+
     function setRevoke(bool revoke) external;
 
     function safeTransfer(
