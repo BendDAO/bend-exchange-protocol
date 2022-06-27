@@ -24,10 +24,10 @@ makeSuite("AuthorizationManager", (contracts: Contracts, env: Env) => {
 
     await expect(
       userProxyContract.connect(user).safeTransfer(nonTransferERC20.address, anotherUser.address, constants.MaxUint256)
-    ).to.be.revertedWith("Proxy: transfer failed");
+    ).to.be.revertedWith("SafeERC20: ERC20 operation did not succeed");
 
     await expect(userProxyContract.connect(user).withdrawToken(nonTransferERC20.address)).to.be.revertedWith(
-      "Proxy: withdraw token failed"
+      "SafeERC20: ERC20 operation did not succeed"
     );
 
     await expect(
@@ -47,7 +47,7 @@ makeSuite("AuthorizationManager", (contracts: Contracts, env: Env) => {
     );
 
     await expect(nonPayableProxyContract.connect(authorizedUser).withdrawETH()).to.be.revertedWith(
-      "Proxy: withdraw ETH failed"
+      "Address: unable to send value, recipient may have reverted"
     );
   });
   it("AuthorizationManager - Revertions work as expected", async () => {
