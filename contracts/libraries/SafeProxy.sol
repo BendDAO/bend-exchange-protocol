@@ -2,6 +2,7 @@
 
 pragma solidity 0.8.9;
 
+import {Address} from "@openzeppelin/contracts/utils/Address.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import {ITransfer} from "../interfaces/ITransfer.sol";
@@ -58,33 +59,20 @@ library SafeProxy {
         bytes memory data,
         string memory errorMessage
     ) internal {
-        (bool success, bytes memory returndata) = proxy.delegatecall(target, data);
-        _verifyCallResult(success, returndata, "SafeProxy: low-level delegate call failed");
-
+        bytes memory returndata = delegateCall(proxy, target, data, "SafeProxy: low-level delegate call failed");
         if (returndata.length > 0) {
             // Return data is optional
             require(abi.decode(returndata, (bool)), errorMessage);
         }
     }
 
-    function _verifyCallResult(
-        bool success,
-        bytes memory returndata,
+    function delegateCall(
+        IAuthenticatedProxy proxy,
+        address target,
+        bytes memory data,
         string memory errorMessage
-    ) internal pure returns (bytes memory) {
-        if (success) {
-            return returndata;
-        } else {
-            // Look for revert reason and bubble it up if present
-            if (returndata.length > 0) {
-                // The easiest way to bubble the revert reason is using memory via assembly
-                assembly {
-                    let returndata_size := mload(returndata)
-                    revert(add(32, returndata), returndata_size)
-                }
-            } else {
-                revert(errorMessage);
-            }
-        }
+    ) internal returns (bytes memory) {
+        (bool success, bytes memory returndata) = proxy.delegatecall(target, data);
+        return Address.verifyCallResult(success, returndata, errorMessage);
     }
 }
