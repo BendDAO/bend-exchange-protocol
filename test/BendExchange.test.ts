@@ -2678,7 +2678,7 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
 
       await expect(
         contracts.bendExchange.connect(takerBidUser).matchAskWithTakerBid(takerBidOrder, makerAskOrder)
-      ).to.be.revertedWith("Signature: invalid v parameter");
+      ).to.be.revertedWith("Signature: invalid");
     });
 
     it("SignatureChecker - Cannot match if invalid s parameter", async () => {
@@ -2721,7 +2721,7 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
 
       await expect(
         contracts.bendExchange.connect(takerBidUser).matchAskWithTakerBid(takerBidOrder, makerAskOrder)
-      ).to.be.revertedWith("Signature: invalid s parameter");
+      ).to.be.revertedWith("Signature: invalid");
     });
 
     it("Order - Cannot cancel if no order", async () => {
@@ -2805,7 +2805,7 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
 
       await expect(
         contracts.bendExchange.connect(env.accounts[2]).matchAskWithTakerBid(takerBidOrder, makerAskOrder)
-      ).to.be.revertedWith("Signature: Invalid");
+      ).to.be.revertedWith("Signature: invalid");
     });
   });
 

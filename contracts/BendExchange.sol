@@ -6,6 +6,8 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import {IERC20, SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
+import {SignatureChecker} from "@openzeppelin/contracts/utils/cryptography/SignatureChecker.sol";
+import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 // Bend interfaces
 import {IAuthorizationManager} from "./interfaces/IAuthorizationManager.sol";
@@ -22,7 +24,6 @@ import {IAuthenticatedProxy} from "./interfaces/IAuthenticatedProxy.sol";
 
 // Bend libraries
 import {OrderTypes} from "./libraries/OrderTypes.sol";
-import {SignatureChecker} from "./libraries/SignatureChecker.sol";
 import {SafeProxy} from "./libraries/SafeProxy.sol";
 
 /**
@@ -585,15 +586,12 @@ contract BendExchange is IBendExchange, ReentrancyGuard, Ownable {
 
         // Verify the validity of the signature
         require(
-            SignatureChecker.verify(
-                makerOrderHash,
+            SignatureChecker.isValidSignatureNow(
                 makerOrder.maker,
-                makerOrder.v,
-                makerOrder.r,
-                makerOrder.s,
-                DOMAIN_SEPARATOR
+                ECDSA.toTypedDataHash(DOMAIN_SEPARATOR, makerOrderHash),
+                abi.encodePacked(makerOrder.r, makerOrder.s, makerOrder.v)
             ),
-            "Signature: Invalid"
+            "Signature: invalid"
         );
 
         // Verify whether the currency is whitelisted, address(0) means native ETH
