@@ -191,7 +191,7 @@ contract BendExchange is IBendExchange, ReentrancyGuard, Ownable {
             IERC20(WETH).safeTransferFrom(address(this), msg.sender, msg.value);
         }
 
-        require(takerBid.price <= IWETH(WETH).balanceOf(msg.sender), "Taker: insufficient WETH");
+        require(takerBid.price <= IWETH(WETH).balanceOf(msg.sender), "Order: price too High and insufficient WETH");
 
         // Check the maker ask order
         bytes32 askHash = makerAsk.hash();

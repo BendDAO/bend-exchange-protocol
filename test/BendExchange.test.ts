@@ -1673,7 +1673,7 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
       ).to.be.revertedWith("Order: matching order expired");
     });
 
-    it("Order - Cannot match if msg.value is too high", async () => {
+    it("Order - Cannot match if price is too high", async () => {
       const makerAskUser = env.accounts[1];
       const takerBidUser = env.accounts[3];
 
@@ -1684,7 +1684,7 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
         maker: makerAskUser.address,
         collection: contracts.mockERC721.address,
         tokenId: constants.Zero,
-        price: parseEther("3"),
+        price: parseEther("3000"),
         amount: constants.One,
         strategy: contracts.strategyStandardSaleForFixedPrice.address,
         currency: contracts.weth.address,
@@ -1710,9 +1710,9 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
 
       await expect(
         contracts.bendExchange.connect(takerBidUser).matchAskWithTakerBidUsingETHAndWETH(takerBidOrder, makerAskOrder, {
-          value: takerBidOrder.price.add(constants.One),
+          value: parseEther("3"),
         })
-      ).to.be.revertedWith("Order: msg.value too high");
+      ).to.be.revertedWith("Order: price too High and insufficient WETH");
     });
 
     it("Order - Cannot match is amount is 0", async () => {
