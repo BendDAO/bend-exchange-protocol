@@ -30,9 +30,6 @@ contract TransferManager is ITransferManager, Ownable {
     event CollectionTransferAdded(address indexed collection, address indexed transfer);
     event CollectionTransferRemoved(address indexed collection);
 
-    event CollectionInterceptorRemoved(address indexed interceptor);
-    event CollectionInterceptorWhitelisted(address indexed interceptor);
-
     /**
      * @notice Constructor
      * @param _transferERC721 address of the ERC721 transfer
