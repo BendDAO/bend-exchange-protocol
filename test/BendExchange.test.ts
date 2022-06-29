@@ -1712,7 +1712,7 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
         contracts.bendExchange.connect(takerBidUser).matchAskWithTakerBidUsingETHAndWETH(takerBidOrder, makerAskOrder, {
           value: parseEther("3"),
         })
-      ).to.be.revertedWith("Order: price too High and insufficient WETH");
+      ).to.be.revertedWith("Order: price too high and insufficient WETH");
     });
 
     it("Order - Cannot match is amount is 0", async () => {
