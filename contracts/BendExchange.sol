@@ -183,7 +183,7 @@ contract BendExchange is IBendExchange, ReentrancyGuard, Ownable {
         require((makerAsk.isOrderAsk) && (!takerBid.isOrderAsk), "Order: wrong sides");
         require(makerAsk.currency == WETH || makerAsk.currency == address(0), "Order: currency must be WETH or ETH");
         require(msg.sender == takerBid.taker, "Order: taker must be the sender");
-
+        require(takerBid.price >= msg.value, "Order: Msg.value too high");
         if (msg.value > 0) {
             // Wrap ETH sent to this contract
             IWETH(WETH).deposit{value: msg.value}();
