@@ -630,13 +630,13 @@ contract BendExchange is IBendExchange, ReentrancyGuard, Ownable {
 
         if (makerOrder.interceptor != address(0)) {
             require(
-                makerOrder.isOrderAsk && interceptorManager.isInterceptorWhitelisted(makerOrder.interceptor),
+                interceptorManager.isInterceptorWhitelisted(makerOrder.interceptor),
                 "Interceptor: maker interceptor not whitelisted"
             );
         }
         if (takerOrder.interceptor != address(0)) {
             require(
-                takerOrder.isOrderAsk && interceptorManager.isInterceptorWhitelisted(takerOrder.interceptor),
+                interceptorManager.isInterceptorWhitelisted(takerOrder.interceptor),
                 "Interceptor: taker interceptor not whitelisted"
             );
         }
