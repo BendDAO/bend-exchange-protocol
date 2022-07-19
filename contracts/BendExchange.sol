@@ -40,8 +40,15 @@ contract BendExchange is IBendExchange, ReentrancyGuard, Ownable {
     string public constant NAME = "BendExchange";
     string public constant VERSION = "1";
 
-    address public immutable WETH;
     bytes32 public immutable DOMAIN_SEPARATOR;
+    uint256 private immutable _CACHED_CHAIN_ID;
+    address private immutable _CACHED_THIS;
+
+    bytes32 private immutable _HASHED_NAME;
+    bytes32 private immutable _HASHED_VERSION;
+    bytes32 private immutable _TYPE_HASH;
+
+    address public immutable WETH;
 
     address public protocolFeeRecipient;
 
@@ -125,15 +132,18 @@ contract BendExchange is IBendExchange, ReentrancyGuard, Ownable {
         address _protocolFeeRecipient
     ) {
         // Calculate the domain separator
-        DOMAIN_SEPARATOR = keccak256(
-            abi.encode(
-                0x8b73c3c69bb8fe3d512ecc4cf759cc79239f7b179b0ffacaa9a75d522b39400f, // keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)")
-                0xba0c660933e3f2279319fe2b72a6f829a2438d726bbe835523453fc0414c6020, // keccak256("BendExchange")
-                0xc89efdaa54c0f20c7adf612882df0950f5a951637e0307cdcb4c672f298b8bc6, // keccak256(bytes("1")) for versionId = 1
-                block.chainid,
-                address(this)
-            )
-        );
+
+        // keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)")
+        _TYPE_HASH = 0x8b73c3c69bb8fe3d512ecc4cf759cc79239f7b179b0ffacaa9a75d522b39400f;
+        // keccak256("BendExchange")
+        _HASHED_NAME = 0xba0c660933e3f2279319fe2b72a6f829a2438d726bbe835523453fc0414c6020;
+        // keccak256(bytes("1"))
+        _HASHED_VERSION = 0xc89efdaa54c0f20c7adf612882df0950f5a951637e0307cdcb4c672f298b8bc6;
+
+        _CACHED_CHAIN_ID = block.chainid;
+        _CACHED_THIS = address(this);
+
+        DOMAIN_SEPARATOR = _buildDomainSeparator(_TYPE_HASH, _HASHED_NAME, _HASHED_VERSION);
 
         transferManager = ITransferManager(_transferManager);
         currencyManager = ICurrencyManager(_currencyManager);
@@ -142,6 +152,22 @@ contract BendExchange is IBendExchange, ReentrancyGuard, Ownable {
         interceptorManager = IInterceptorManager(_interceptorManager);
         WETH = _WETH;
         protocolFeeRecipient = _protocolFeeRecipient;
+    }
+
+    function _domainSeparatorV4() internal view returns (bytes32) {
+        if (address(this) == _CACHED_THIS && block.chainid == _CACHED_CHAIN_ID) {
+            return DOMAIN_SEPARATOR;
+        } else {
+            return _buildDomainSeparator(_TYPE_HASH, _HASHED_NAME, _HASHED_VERSION);
+        }
+    }
+
+    function _buildDomainSeparator(
+        bytes32 typeHash,
+        bytes32 nameHash,
+        bytes32 versionHash
+    ) private view returns (bytes32) {
+        return keccak256(abi.encode(typeHash, nameHash, versionHash, block.chainid, address(this)));
     }
 
     /**
@@ -183,7 +209,7 @@ contract BendExchange is IBendExchange, ReentrancyGuard, Ownable {
         require((makerAsk.isOrderAsk) && (!takerBid.isOrderAsk), "Order: wrong sides");
         require(makerAsk.currency == WETH || makerAsk.currency == address(0), "Order: currency must be WETH or ETH");
         require(msg.sender == takerBid.taker, "Order: taker must be the sender");
-
+        require(takerBid.price >= msg.value, "Order: Msg.value too high");
         if (msg.value > 0) {
             // Wrap ETH sent to this contract
             IWETH(WETH).deposit{value: msg.value}();
@@ -588,7 +614,7 @@ contract BendExchange is IBendExchange, ReentrancyGuard, Ownable {
         require(
             SignatureChecker.isValidSignatureNow(
                 makerOrder.maker,
-                ECDSA.toTypedDataHash(DOMAIN_SEPARATOR, makerOrderHash),
+                ECDSA.toTypedDataHash(_domainSeparatorV4(), makerOrderHash),
                 abi.encodePacked(makerOrder.r, makerOrder.s, makerOrder.v)
             ),
             "Signature: invalid"
@@ -604,13 +630,13 @@ contract BendExchange is IBendExchange, ReentrancyGuard, Ownable {
 
         if (makerOrder.interceptor != address(0)) {
             require(
-                makerOrder.isOrderAsk && interceptorManager.isInterceptorWhitelisted(makerOrder.interceptor),
+                interceptorManager.isInterceptorWhitelisted(makerOrder.interceptor),
                 "Interceptor: maker interceptor not whitelisted"
             );
         }
         if (takerOrder.interceptor != address(0)) {
             require(
-                takerOrder.isOrderAsk && interceptorManager.isInterceptorWhitelisted(takerOrder.interceptor),
+                interceptorManager.isInterceptorWhitelisted(takerOrder.interceptor),
                 "Interceptor: taker interceptor not whitelisted"
             );
         }

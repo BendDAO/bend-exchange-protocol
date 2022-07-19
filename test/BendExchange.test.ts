@@ -1715,6 +1715,48 @@ makeSuite("BendDAO Exchange", (contracts: Contracts, env: Env, snapshots: Snapsh
       ).to.be.revertedWith("Order: price too high and insufficient WETH");
     });
 
+    it("Order - Cannot match if msg.value is too high", async () => {
+      const makerAskUser = env.accounts[1];
+      const takerBidUser = env.accounts[3];
+
+      const makerAskOrder = await createMakerOrder({
+        isOrderAsk: true,
+        interceptor: constants.AddressZero,
+        interceptorExtra: emptyEncodedBytes,
+        maker: makerAskUser.address,
+        collection: contracts.mockERC721.address,
+        tokenId: constants.Zero,
+        price: parseEther("3000"),
+        amount: constants.One,
+        strategy: contracts.strategyStandardSaleForFixedPrice.address,
+        currency: contracts.weth.address,
+        nonce: constants.Zero,
+        startTime: startTimeOrder,
+        endTime: endTimeOrder,
+        minPercentageToAsk: constants.Zero,
+        params: emptyEncodedBytes,
+        signerUser: makerAskUser,
+        verifyingContract: contracts.bendExchange.address,
+      });
+
+      const takerBidOrder: TakerOrder = {
+        isOrderAsk: false,
+        taker: takerBidUser.address,
+        price: makerAskOrder.price,
+        tokenId: makerAskOrder.tokenId,
+        minPercentageToAsk: constants.Zero,
+        params: emptyEncodedBytes,
+        interceptor: constants.AddressZero,
+        interceptorExtra: emptyEncodedBytes,
+      };
+
+      await expect(
+        contracts.bendExchange.connect(takerBidUser).matchAskWithTakerBidUsingETHAndWETH(takerBidOrder, makerAskOrder, {
+          value: takerBidOrder.price.add(constants.One),
+        })
+      ).to.be.revertedWith("Order: Msg.value too high");
+    });
+
     it("Order - Cannot match is amount is 0", async () => {
       const makerAskUser = env.accounts[1];
       const takerBidUser = env.accounts[3];
