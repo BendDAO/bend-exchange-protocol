@@ -132,18 +132,18 @@ contract BendExchange is IBendExchange, ReentrancyGuard, Ownable {
         address _protocolFeeRecipient
     ) {
         // Calculate the domain separator
-        // keccak256("BendExchange")
-        bytes32 hashedName = 0xba0c660933e3f2279319fe2b72a6f829a2438d726bbe835523453fc0414c6020;
-        // keccak256(bytes("1"))
-        bytes32 hashedVersion = 0xc89efdaa54c0f20c7adf612882df0950f5a951637e0307cdcb4c672f298b8bc6;
+
         // keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)")
-        bytes32 typeHash = 0x8b73c3c69bb8fe3d512ecc4cf759cc79239f7b179b0ffacaa9a75d522b39400f;
-        _HASHED_NAME = hashedName;
-        _HASHED_VERSION = hashedVersion;
+        _TYPE_HASH = 0x8b73c3c69bb8fe3d512ecc4cf759cc79239f7b179b0ffacaa9a75d522b39400f;
+        // keccak256("BendExchange")
+        _HASHED_NAME = 0xba0c660933e3f2279319fe2b72a6f829a2438d726bbe835523453fc0414c6020;
+        // keccak256(bytes("1"))
+        _HASHED_VERSION = 0xc89efdaa54c0f20c7adf612882df0950f5a951637e0307cdcb4c672f298b8bc6;
+
         _CACHED_CHAIN_ID = block.chainid;
-        DOMAIN_SEPARATOR = _buildDomainSeparator(typeHash, hashedName, hashedVersion);
         _CACHED_THIS = address(this);
-        _TYPE_HASH = typeHash;
+
+        DOMAIN_SEPARATOR = _buildDomainSeparator(_TYPE_HASH, _HASHED_NAME, _HASHED_VERSION);
 
         transferManager = ITransferManager(_transferManager);
         currencyManager = ICurrencyManager(_currencyManager);
