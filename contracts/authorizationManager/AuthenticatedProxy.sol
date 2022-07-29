@@ -26,6 +26,19 @@ contract AuthenticatedProxy is IAuthenticatedProxy, Initializable {
         _;
     }
 
+    modifier onlyAuthed() {
+        require(
+            !revoked && !authorizationManager.revoked() && msg.sender == authorizationManager.authorizedAddress(),
+            "Proxy: permission denied"
+        );
+        _;
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Proxy: permission denied");
+        _;
+    }
+
     function initialize(
         address _owner,
         address _authorizationManager,
@@ -36,20 +49,31 @@ contract AuthenticatedProxy is IAuthenticatedProxy, Initializable {
         WETH = _WETH;
     }
 
-    function setRevoke(bool revoke) external override {
-        require(msg.sender == owner, "Proxy: permission denied");
+    // only owner
+    function setRevoke(bool revoke) external override onlyOwner {
         revoked = revoke;
         emit Revoked(revoke);
     }
 
+    // only authed
     function safeTransfer(
         address token,
         address to,
         uint256 amount
-    ) external override onlyOwnerOrAuthed {
+    ) external override onlyAuthed {
         IERC20(token).safeTransferFrom(owner, to, amount);
     }
 
+    function delegatecall(address dest, bytes memory data)
+        external
+        override
+        onlyAuthed
+        returns (bool success, bytes memory returndata)
+    {
+        (success, returndata) = dest.delegatecall(data);
+    }
+
+    // only owner or authed
     function withdrawETH() external override onlyOwnerOrAuthed {
         uint256 amount = IWETH(WETH).balanceOf(address(this));
         IWETH(WETH).withdraw(amount);
@@ -59,15 +83,6 @@ contract AuthenticatedProxy is IAuthenticatedProxy, Initializable {
     function withdrawToken(address token) external override onlyOwnerOrAuthed {
         uint256 amount = IERC20(token).balanceOf(address(this));
         IERC20(token).safeTransfer(owner, amount);
-    }
-
-    function delegatecall(address dest, bytes memory data)
-        external
-        override
-        onlyOwnerOrAuthed
-        returns (bool success, bytes memory returndata)
-    {
-        (success, returndata) = dest.delegatecall(data);
     }
 
     receive() external payable {
