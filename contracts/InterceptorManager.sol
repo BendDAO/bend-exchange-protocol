@@ -16,25 +16,25 @@ contract InterceptorManager is IInterceptorManager, Ownable {
     using EnumerableSet for EnumerableSet.AddressSet;
     EnumerableSet.AddressSet private _whitelistedInterceptors;
 
-    event CollectionInterceptorRemoved(address indexed Interceptor);
-    event CollectionInterceptorWhitelisted(address indexed Interceptor);
+    event CollectionInterceptorRemoved(address indexed interceptor);
+    event CollectionInterceptorWhitelisted(address indexed interceptor);
 
-    function addCollectionInterceptor(address Interceptor) external override onlyOwner {
-        require(Interceptor != address(0), "Interceptor: can not be null address");
-        require(!_whitelistedInterceptors.contains(Interceptor), "Interceptor: already whitelisted");
-        _whitelistedInterceptors.add(Interceptor);
-        emit CollectionInterceptorWhitelisted(Interceptor);
+    function addCollectionInterceptor(address interceptor) external override onlyOwner {
+        require(interceptor != address(0), "Interceptor: can not be null address");
+        require(!_whitelistedInterceptors.contains(interceptor), "Interceptor: already whitelisted");
+        _whitelistedInterceptors.add(interceptor);
+        emit CollectionInterceptorWhitelisted(interceptor);
     }
 
-    function removeCollectionInterceptor(address Interceptor) external override onlyOwner {
-        require(_whitelistedInterceptors.contains(Interceptor), "Interceptor: not whitelisted");
-        _whitelistedInterceptors.remove(Interceptor);
+    function removeCollectionInterceptor(address interceptor) external override onlyOwner {
+        require(_whitelistedInterceptors.contains(interceptor), "Interceptor: not whitelisted");
+        _whitelistedInterceptors.remove(interceptor);
 
-        emit CollectionInterceptorRemoved(Interceptor);
+        emit CollectionInterceptorRemoved(interceptor);
     }
 
-    function isInterceptorWhitelisted(address Interceptor) external view override returns (bool) {
-        return _whitelistedInterceptors.contains(Interceptor);
+    function isInterceptorWhitelisted(address interceptor) external view override returns (bool) {
+        return _whitelistedInterceptors.contains(interceptor);
     }
 
     function viewCountWhitelistedInterceptors() external view override returns (uint256) {
