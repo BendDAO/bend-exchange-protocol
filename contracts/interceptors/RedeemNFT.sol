@@ -46,7 +46,7 @@ contract RedeemNFT is IInterceptor {
         (, vars.tokenRepaid, , vars.totalDebt, , ) = vars.lendPool.getNftDebtData(token, tokenId);
 
         require(
-            vars.totalDebt + vars.bidFine < IERC20(vars.tokenRepaid).balanceOf(address(this)),
+            vars.totalDebt + vars.bidFine <= IERC20(vars.tokenRepaid).balanceOf(address(this)),
             "Interceptor: insufficent to repay debt"
         );
 

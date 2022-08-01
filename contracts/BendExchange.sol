@@ -116,6 +116,8 @@ contract BendExchange is IBendExchange, ReentrancyGuard, Ownable {
 
     /**
      * @notice Constructor
+     * @param _interceptorManager interceptor manager address
+     * @param _transferManager transfer manager address
      * @param _currencyManager currency manager address
      * @param _executionManager execution manager address
      * @param _royaltyFeeManager royalty fee manager address
@@ -271,7 +273,7 @@ contract BendExchange is IBendExchange, ReentrancyGuard, Ownable {
     }
 
     /**
-     * @notice Match a takerBid with a matchAsk
+     * @notice Match a takerBid with a makerAsk
      * @param takerBid taker bid order
      * @param makerAsk maker ask order
      */
@@ -621,9 +623,7 @@ contract BendExchange is IBendExchange, ReentrancyGuard, Ownable {
         );
 
         // Verify whether the currency is whitelisted, address(0) means native ETH
-        if (makerOrder.currency != address(0)) {
-            require(currencyManager.isCurrencyWhitelisted(makerOrder.currency), "Currency: not whitelisted");
-        }
+        require(currencyManager.isCurrencyWhitelisted(makerOrder.currency), "Currency: not whitelisted");
 
         // Verify whether strategy can be executed
         require(executionManager.isStrategyWhitelisted(makerOrder.strategy), "Strategy: not whitelisted");
