@@ -129,6 +129,8 @@ export async function setUp(
   const currencyManager = await CurrencyManager.deploy();
   await currencyManager.deployed();
   await currencyManager.connect(admin).addCurrency(weth.address);
+  // address(0) means native ETH
+  await currencyManager.connect(admin).addCurrency(constants.AddressZero);
 
   /** 3. Deploy ExecutionManager contract
    */

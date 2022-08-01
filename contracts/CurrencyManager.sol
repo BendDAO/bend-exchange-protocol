@@ -23,7 +23,6 @@ contract CurrencyManager is ICurrencyManager, Ownable {
      * @param currency address of the currency to add
      */
     function addCurrency(address currency) external override onlyOwner {
-        require(currency != address(0), "Currency: can not be null address");
         require(!_whitelistedCurrencies.contains(currency), "Currency: already whitelisted");
         _whitelistedCurrencies.add(currency);
         emit CurrencyWhitelisted(currency);
