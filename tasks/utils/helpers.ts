@@ -44,7 +44,7 @@ export const getSignerByAddress = async (address: string): Promise<Signer> => {
 export const getSignersAddresses = async (): Promise<string[]> =>
   await Promise.all((await getSigners()).map((signer) => signer.getAddress()));
 
-export const deployContract = async (contractName: string, args: any[], verify?: boolean): Promise<Contract> => {
+export const deployContract = async (contractName: string, args: any[] = [], verify = true): Promise<Contract> => {
   console.log("deploy", contractName);
   const instance = await (await DRE.ethers.getContractFactory(contractName))
     .connect(await getDeploySigner())
