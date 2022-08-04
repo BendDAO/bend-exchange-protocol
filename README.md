@@ -30,7 +30,7 @@ The documentation for the exchange smart contracts is available [here](https://d
 
 ## Audits
 
-TBD
+[Verilog Solutions](https://www.verilog.solutions/audits/benddao_liquidity/)
 
 ## Thanks
 
