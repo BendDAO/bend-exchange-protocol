@@ -57,7 +57,7 @@ contract RedeemNFT is IInterceptor {
             // maxinmum debt repay amount 90%
             uint256 redeemAmount = (vars.totalDebt * 9000 + HALF_PERCENT) / PERCENTAGE_FACTOR;
             vars.lendPool.redeem(token, tokenId, redeemAmount, vars.bidFine);
-            vars.totalDebt -= redeemAmount;
+            (, , , vars.totalDebt, , ) = vars.lendPool.getNftDebtData(token, tokenId);
         }
         vars.lendPool.repay(token, tokenId, vars.totalDebt);
         // reset approve

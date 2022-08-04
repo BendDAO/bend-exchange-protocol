@@ -44,7 +44,7 @@ export const RoyaltyFeeLimit: Params<number> = {
 };
 
 export const FeeRecipient: Params<string> = {
-  [Network.rinkeby]: "",
+  [Network.rinkeby]: "0xab576dAab2F1eB5417E1064EaBDe801af934D0e7",
   [Network.main]: "",
 };
 
@@ -55,5 +55,5 @@ export const ProtocolFee: Params<number> = {
 
 export const BendAddressesProviders: Params<string> = {
   [Network.rinkeby]: "0xE55870eBB007a50B0dfAbAdB1a21e4bFcee5299b",
-  [Network.main]: "",
+  [Network.main]: "0x24451f47caf13b24f4b5034e1df6c0e401ec0e46",
 };

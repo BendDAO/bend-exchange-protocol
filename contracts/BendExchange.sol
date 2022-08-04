@@ -534,7 +534,7 @@ contract BendExchange is IBendExchange, ReentrancyGuard, Ownable {
 
         require((finalSellerAmount * 10000) >= (minPercentageToAsk * amount), "Fees: higher than expected");
 
-        // 3. Transfer final amount (post-fees) to seller
+        // 3. Transfer final amount (post-fees) to seller proxy
         {
             fromProxy.safeTransfer(currency, address(toProxy), finalSellerAmount);
         }

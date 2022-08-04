@@ -1,6 +1,7 @@
+import { constants } from "ethers";
 import { task } from "hardhat/config";
-import { getParamPerNetwork, RoyaltyFeeLimit, WETH, ProtocolFee } from "./config";
-import { deployContract, getDeploySigner } from "./utils/helpers";
+import { getParamPerNetwork, RoyaltyFeeLimit, WETH, ProtocolFee, FeeRecipient } from "./config";
+import { deployContract, getContractFromDB, getDeploySigner } from "./utils/helpers";
 
 task("deploy:full", "Deploy all contracts").setAction(async (_, { network, run }) => {
   await run("set-DRE");
@@ -8,55 +9,61 @@ task("deploy:full", "Deploy all contracts").setAction(async (_, { network, run }
 
   const deployer = await getDeploySigner();
 
-  // config
+  // configs
   const weth = getParamPerNetwork(WETH, network.name);
   const royaltyFeeLimit = getParamPerNetwork(RoyaltyFeeLimit, network.name);
-  const protocolFee = getParamPerNetwork(ProtocolFee, network.name);
+  const feeRecipient = getParamPerNetwork(FeeRecipient, network.name);
 
-  const currencyManager = await deployContract("CurrencyManager", [], true);
+  const currencyManager = await deployContract("CurrencyManager");
+
+  const executionManager = await deployContract("ExecutionManager");
+
+  const royaltyFeeRegistry = await deployContract("RoyaltyFeeRegistry", [royaltyFeeLimit]);
+  const royaltyFeeSetter = await deployContract("RoyaltyFeeSetter", [royaltyFeeRegistry.address]);
+  const royaltyFeeManager = await deployContract("RoyaltyFeeManager", [royaltyFeeRegistry.address]);
+
+  const transferERC721 = await deployContract("TransferERC721");
+  const transferERC1155 = await deployContract("TransferERC1155");
+  const transferManager = await deployContract("TransferManager", [transferERC721.address, transferERC1155.address]);
+
+  const interceptorManager = await deployContract("InterceptorManager");
+
+  const bendExchange = await deployContract("BendExchange", [
+    interceptorManager.address,
+    transferManager.address,
+    currencyManager.address,
+    executionManager.address,
+    royaltyFeeManager.address,
+    weth,
+    feeRecipient,
+  ]);
+
+  const authorizationManager = await deployContract("AuthorizationManager", [weth, bendExchange.address]);
+
+  // config contracts
+  await bendExchange.connect(deployer).updateAuthorizationManager(authorizationManager.address);
+  await royaltyFeeRegistry.connect(deployer).transferOwnership(royaltyFeeSetter.address);
 
   await currencyManager.connect(deployer).addCurrency(weth);
+  await currencyManager.connect(deployer).addCurrency(constants.AddressZero);
 
-  const executionManager = await deployContract("ExecutionManager", [], true);
-  const strategyStandardSaleForFixedPrice = await deployContract(
-    "StrategyStandardSaleForFixedPrice",
-    [protocolFee],
-    true
-  );
-  await executionManager.connect(deployer).addStrategy(strategyStandardSaleForFixedPrice.address);
+  await run("deploy:Strategy");
+  await run("deploy:RedeemNFT");
+});
 
-  const royaltyFeeRegistry = await deployContract("RoyaltyFeeRegistry", [royaltyFeeLimit], true);
-  const royaltyFeeSetter = await deployContract("RoyaltyFeeSetter", [royaltyFeeRegistry.address], true);
-  await royaltyFeeRegistry.connect(deployer).transferOwnership(royaltyFeeSetter.address);
-  const royaltyFeeManager = await deployContract("RoyaltyFeeManager", [royaltyFeeRegistry.address], true);
+task("deploy:Strategy", "Deploy Strategy").setAction(async (_, { network, run }) => {
+  await run("set-DRE");
+  await run("compile");
+  const protocolFee = getParamPerNetwork(ProtocolFee, network.name);
+  const strategyStandardSaleForFixedPrice = await deployContract("StrategyStandardSaleForFixedPrice", [protocolFee]);
+  const executionManager = await getContractFromDB("ExecutionManager");
+  await executionManager.connect(await getDeploySigner()).addStrategy(strategyStandardSaleForFixedPrice.address);
+});
 
-  const transferERC721 = await deployContract("TransferERC721", [], true);
-  const transferERC1155 = await deployContract("TransferERC1155", [], true);
-  const transferManager = await deployContract(
-    "TransferManager",
-    [transferERC721.address, transferERC1155.address],
-    true
-  );
-
-  const redeemNFT = await deployContract("RedeemNFT", [], true);
-  const interceptorManager = await deployContract("InterceptorManager", [], true);
-  await interceptorManager.connect(deployer).addCollectionInterceptor(redeemNFT.address);
-
-  const bendExchange = await deployContract(
-    "BendExchange",
-    [
-      interceptorManager.address,
-      transferManager.address,
-      currencyManager.address,
-      executionManager.address,
-      royaltyFeeManager.address,
-      weth,
-      await deployer.getAddress(),
-    ],
-    true
-  );
-
-  const authorizationManager = await deployContract("AuthorizationManager", [weth, bendExchange.address], true);
-
-  await bendExchange.connect(deployer).updateAuthorizationManager(authorizationManager.address);
+task("deploy:RedeemNFT", "Deploy RedeemNFT").setAction(async (_, { run }) => {
+  await run("set-DRE");
+  await run("compile");
+  const redeemNFT = await deployContract("RedeemNFT");
+  const interceptorManager = await getContractFromDB("InterceptorManager");
+  await interceptorManager.connect(await getDeploySigner()).addCollectionInterceptor(redeemNFT.address);
 });
