@@ -45,7 +45,7 @@ export const RoyaltyFeeLimit: Params<number> = {
 
 export const FeeRecipient: Params<string> = {
   [Network.rinkeby]: "0xab576dAab2F1eB5417E1064EaBDe801af934D0e7",
-  [Network.main]: "",
+  [Network.main]: "0x1d53bB3dABf03C60B6f17D8316C3FFD505c7eff1",
 };
 
 export const ProtocolFee: Params<number> = {
