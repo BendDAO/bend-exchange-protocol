@@ -13,6 +13,8 @@ import "dotenv/config";
 
 import { Network, NETWORKS_RPC_URL } from "./tasks/config";
 
+const GWEI = 1000 * 1000 * 1000;
+
 const ETHERSCAN_KEY = process.env.ETHERSCAN_KEY || "";
 const MNEMONIC_PATH = "m/44'/60'/0'/0";
 const MNEMONIC = process.env.MNEMONIC || "";
@@ -39,6 +41,18 @@ const config: HardhatUserConfig = {
     },
     rinkeby: {
       url: NETWORKS_RPC_URL[Network.rinkeby],
+      accounts: PRIVATE_KEY
+        ? [PRIVATE_KEY]
+        : {
+            mnemonic: MNEMONIC,
+            path: MNEMONIC_PATH,
+            initialIndex: 0,
+            count: 20,
+          },
+    },
+    main: {
+      gasPrice: 35 * GWEI,
+      url: NETWORKS_RPC_URL[Network.main],
       accounts: PRIVATE_KEY
         ? [PRIVATE_KEY]
         : {
