@@ -1,0 +1,54 @@
+{
+  "CurrencyManager": {
+    "address": "0x7C14e77E03BB7682543a91C3941434fbcBe0bE4b",
+    "deployer": "0xafF5C36642385b6c7Aaf7585eC785aB2316b5db6"
+  },
+  "ExecutionManager": {
+    "address": "0x49144F86c717700E9F1e0225Df77a8a93c4E729F",
+    "deployer": "0xafF5C36642385b6c7Aaf7585eC785aB2316b5db6"
+  },
+  "RoyaltyFeeRegistry": {
+    "address": "0x0A7D3a384bDc18526fb65858f5e609F2E525b99b",
+    "deployer": "0xafF5C36642385b6c7Aaf7585eC785aB2316b5db6"
+  },
+  "RoyaltyFeeSetter": {
+    "address": "0xE5Ee79f310f6c49b4b66c316168bf37C7d72A97E",
+    "deployer": "0xafF5C36642385b6c7Aaf7585eC785aB2316b5db6"
+  },
+  "RoyaltyFeeManager": {
+    "address": "0x191D4c30DDf6CcC91E6DC4C52d49452Ecc48436E",
+    "deployer": "0xafF5C36642385b6c7Aaf7585eC785aB2316b5db6"
+  },
+  "TransferERC721": {
+    "address": "0x64a7640Db46B3840bA0433f832cC2Ce11CD4Cde8",
+    "deployer": "0xafF5C36642385b6c7Aaf7585eC785aB2316b5db6"
+  },
+  "TransferERC1155": {
+    "address": "0xBc96C5eA92C07F900Ee0DD9D6b15EBEFc22De5Ec",
+    "deployer": "0xafF5C36642385b6c7Aaf7585eC785aB2316b5db6"
+  },
+  "TransferManager": {
+    "address": "0x4ff24CFAdDe6397Bf4Ff0975735701C9969C627E",
+    "deployer": "0xafF5C36642385b6c7Aaf7585eC785aB2316b5db6"
+  },
+  "InterceptorManager": {
+    "address": "0x45FB2fF14aBb0F1fc3eF232863c61E7164897e55",
+    "deployer": "0xafF5C36642385b6c7Aaf7585eC785aB2316b5db6"
+  },
+  "BendExchange": {
+    "address": "0xA897599f8dAf1170b6e1391f1De66f69BAB9617F",
+    "deployer": "0xafF5C36642385b6c7Aaf7585eC785aB2316b5db6"
+  },
+  "AuthorizationManager": {
+    "address": "0xB68d4a3f93A657E8A6Ff17a2fb4acfd4769474c7",
+    "deployer": "0xafF5C36642385b6c7Aaf7585eC785aB2316b5db6"
+  },
+  "StrategyStandardSaleForFixedPrice": {
+    "address": "0x2B72aA8191C674734668b7A6459e3314e786cB10",
+    "deployer": "0xafF5C36642385b6c7Aaf7585eC785aB2316b5db6"
+  },
+  "RedeemNFT": {
+    "address": "0xe431914f90224C2a0fB3d2166ac6F8D600750a4d",
+    "deployer": "0xafF5C36642385b6c7Aaf7585eC785aB2316b5db6"
+  }
+}

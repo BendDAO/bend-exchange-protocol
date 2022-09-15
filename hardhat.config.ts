@@ -39,6 +39,17 @@ const config: HardhatUserConfig = {
     hardhat: {
       initialBaseFeePerGas: 0,
     },
+    goerli: {
+      url: NETWORKS_RPC_URL[Network.goerli],
+      accounts: PRIVATE_KEY
+        ? [PRIVATE_KEY]
+        : {
+            mnemonic: MNEMONIC,
+            path: MNEMONIC_PATH,
+            initialIndex: 0,
+            count: 20,
+          },
+    },
     rinkeby: {
       url: NETWORKS_RPC_URL[Network.rinkeby],
       accounts: PRIVATE_KEY

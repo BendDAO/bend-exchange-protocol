@@ -28,6 +28,29 @@ task("deploy:full", "Deploy all contracts").setAction(async (_, { network, run }
 
   const interceptorManager = await deployContract("InterceptorManager");
 
+  await run("deploy:BendExchange");
+
+  await run("deploy:AuthorizationManager");
+
+  await run("deploy:Config");
+
+  await run("deploy:Strategy");
+  await run("deploy:RedeemNFT");
+});
+
+task("deploy:BendExchange", "Deploy BendExchange").setAction(async (_, { network, run }) => {
+  await run("set-DRE");
+  await run("compile");
+
+  const weth = getParamPerNetwork(WETH, network.name);
+  const feeRecipient = getParamPerNetwork(FeeRecipient, network.name);
+
+  const currencyManager = await getContractFromDB("CurrencyManager");
+  const executionManager = await getContractFromDB("ExecutionManager");
+  const royaltyFeeManager = await getContractFromDB("RoyaltyFeeManager");
+  const interceptorManager = await getContractFromDB("InterceptorManager");
+  const transferManager = await getContractFromDB("TransferManager");
+
   const bendExchange = await deployContract("BendExchange", [
     interceptorManager.address,
     transferManager.address,
@@ -37,13 +60,17 @@ task("deploy:full", "Deploy all contracts").setAction(async (_, { network, run }
     weth,
     feeRecipient,
   ]);
+});
+
+task("deploy:AuthorizationManager", "Deploy AuthorizationManager").setAction(async (_, { network, run }) => {
+  await run("set-DRE");
+  await run("compile");
+
+  const weth = getParamPerNetwork(WETH, network.name);
+
+  const bendExchange = await getContractFromDB("BendExchange");
 
   const authorizationManager = await deployContract("AuthorizationManager", [weth, bendExchange.address]);
-
-  await run("deploy:Config");
-
-  await run("deploy:Strategy");
-  await run("deploy:RedeemNFT");
 });
 
 task("deploy:Config", "Config Contracts").setAction(async (_, { network, run }) => {
