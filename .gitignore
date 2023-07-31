@@ -10,7 +10,6 @@ typechain
 # Hardhat files
 cache
 artifacts
-abis/
 
 # Others 
 lib
