@@ -106,6 +106,13 @@ task("deploy:Strategy", "Deploy Strategy").setAction(async (_, { network, run })
   );
 });
 
+task("deploy:Strategy-Zero-Fee", "Deploy Strategy").setAction(async (_, { network, run }) => {
+  await run("set-DRE");
+  await run("compile");
+  const protocolFee = 0;
+  const strategyStandardSaleForFixedPrice = await deployContract("StrategyStandardSaleForFixedPrice", [protocolFee]);
+});
+
 task("deploy:RedeemNFT", "Deploy RedeemNFT").setAction(async (_, { run }) => {
   await run("set-DRE");
   await run("compile");
