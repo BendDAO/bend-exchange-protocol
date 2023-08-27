@@ -51,14 +51,15 @@ contract RedeemNFT is IInterceptor {
         );
 
         // approve lend pool
-        IERC20(vars.tokenRepaid).safeApprove(address(vars.lendPool), vars.totalDebt + vars.bidFine);
         // repay debt, will failed if debt greater than sell price
         if (vars.bidFine > 0) {
             // maxinmum debt repay amount 90%
             uint256 redeemAmount = (vars.totalDebt * 9000 + HALF_PERCENT) / PERCENTAGE_FACTOR;
+            IERC20(vars.tokenRepaid).safeIncreaseAllowance(address(vars.lendPool), redeemAmount + vars.bidFine);
             vars.lendPool.redeem(token, tokenId, redeemAmount, vars.bidFine);
             (, , , vars.totalDebt, , ) = vars.lendPool.getNftDebtData(token, tokenId);
         }
+        IERC20(vars.tokenRepaid).safeIncreaseAllowance(address(vars.lendPool), vars.totalDebt);
         vars.lendPool.repay(token, tokenId, vars.totalDebt);
         // reset approve
         IERC20(vars.tokenRepaid).safeApprove(address(vars.lendPool), 0);
