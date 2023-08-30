@@ -1,7 +1,7 @@
 {
-  "name": "@benddao/exchange",
+  "name": "@benddao/bend-exchange-protocol",
   "version": "1.0.0",
-  "description": "Bend exchange smart",
+  "description": "BendDAO Exchange Protocol smart contracts",
   "author": "BendDAO",
   "license": "MIT",
   "private": false,
@@ -31,6 +31,7 @@
     "registry": "https://registry.npmjs.org"
   },
   "scripts": {
+    "clean": "hardhat clean",
     "compile": "hardhat compile",
     "compile:force": "hardhat compile --force",
     "format:check": "prettier --check '**/*.{js,jsx,ts,tsx,sol,json,yaml,md}'",
