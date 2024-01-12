@@ -43,8 +43,12 @@
     "address": "0xB68d4a3f93A657E8A6Ff17a2fb4acfd4769474c7",
     "deployer": "0xafF5C36642385b6c7Aaf7585eC785aB2316b5db6"
   },
-  "StrategyStandardSaleForFixedPrice": {
+  "StrategyStandardSaleForFixedPrice20220915": {
     "address": "0x2B72aA8191C674734668b7A6459e3314e786cB10",
+    "deployer": "0xafF5C36642385b6c7Aaf7585eC785aB2316b5db6"
+  },
+  "StrategyStandardSaleForFixedPrice20240112": {
+    "address": "0x4679bC42B012707d517cC74a545C3B982C34b9a3",
     "deployer": "0xafF5C36642385b6c7Aaf7585eC785aB2316b5db6"
   },
   "RedeemNFT": {
